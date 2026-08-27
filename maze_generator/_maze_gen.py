@@ -81,7 +81,17 @@ class Matrix:
             logo_coords.append((x, y))
         return set(logo_coords)
 
-    def debug_print_maze(self) -> None:
+    # TODO - Later
+    def gen_inner_logo_coords(self) -> set:
+        """ generate logo coordinates"""
+        if self.row_max <= 8 or self.col_max <= 8:
+            raise Exception('Grid too little for logo')
+        r_center = self.row_max // 2
+        c_center = self.col_max // 2
+        inner_logo_coords: list[tuple[int, int]] = []
+        return set(inner_logo_coords)
+
+    def debug_print_maze_metadata(self) -> None:
         for row in range(self.row_max):
             for col in range(self.col_max):
                 match self.matrix[row][col]:
@@ -96,15 +106,20 @@ class Matrix:
                 if col == self.col_max - 1:
                     print()
 
-    def debug_print_maze_wall(self) -> None:
+    def debug_print_maze(self, bits: bool = False) -> None:
         """print the wall bitmask of each case as a box drawing"""
+        box: str = "  "
+        # box = f" {wall:04b} "
         for row in range(self.row_max):
             top = ""
             mid = ""
             for col in range(self.col_max):
                 wall = self.matrix[row][col].wall
-                top += "+" + ("------" if wall & Dir.N else "      ")
-                mid += ("|" if wall & Dir.W else " ") + f" {wall:04b} "
+                if bits:
+                    box = f" {wall:04b} "
+                width = len(box)
+                top += "+" + ("-" if wall & Dir.N else " ") * width
+                mid += ("|" if wall & Dir.W else " ") + box
                 if col == self.col_max - 1:
                     top += "+"
                     mid += "|" if wall & Dir.E else " "
@@ -113,11 +128,18 @@ class Matrix:
         bottom = ""
         for col in range(self.col_max):
             wall = self.matrix[self.row_max - 1][col].wall
-            bottom += "+" + ("------" if wall & Dir.S else "      ")
+            if bits:
+                box = f" {wall:04b} "
+            width = len(box)
+            bottom += "+" + ("-" if wall & Dir.S else " ") * width
         print(bottom + "+")
 
 
 def gen_wall(matrix: Matrix) -> None:
+    # Can be access directly via object
+    #    for row in matrix.matrix:
+    #       for cell in row:
+
     for row in range(matrix.row_max):
         for col in range(matrix.col_max):
             # logo
@@ -129,11 +151,12 @@ def gen_wall(matrix: Matrix) -> None:
 
 
 def gen_wallset(matrix: Matrix, row: int, col: int) -> set[int]:
-    if glob_mode == "perfect":
+    # if glob_mode == "perfect":
+    if True:
         baseset = Wall.PERFECTSET
     else:
         baseset = Wall.BASESET
-    wallset: set[int] = set(Wall.BASESET.copy())
+    wallset: set[int] = set(baseset.copy())
     to_close: set[int] = set()
     to_open: set[int] = set()
     # border
@@ -159,7 +182,7 @@ def gen_wallset(matrix: Matrix, row: int, col: int) -> set[int]:
     # successor constraint (logo)
     if col < matrix.col_max - 1 and matrix.matrix[row][col + 1].logo:
         to_close.add(Dir.E)
-    if row < matrix.col_max - 1 and matrix.matrix[row + 1][col].logo:
+    if row < matrix.row_max - 1 and matrix.matrix[row + 1][col].logo:
         to_close.add(Dir.S)
     for wall in to_close:
         # intersection
@@ -202,8 +225,8 @@ class Case:
 
 
 if __name__ == "__main__":
-    test_grid = Matrix(10, 10)
+    test_grid = Matrix(13, 30)
     test_grid.pregen_maze()
-    test_grid.debug_print_maze()
+    test_grid.debug_print_maze_metadata()
     gen_wall(test_grid)
-    test_grid.debug_print_maze_wall()
+    test_grid.debug_print_maze(bits=False)
