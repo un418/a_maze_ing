@@ -1,0 +1,56 @@
+class Logo:
+    def __init__(self, maze: Maze) -> None:
+        self.maze = maze
+        self.center = (maze.width, maze)
+
+    def gen_logo_close_coordset(self) -> set:
+        """ generate logo fully closed cells coordinates"""
+        if self.row_max <= 8 or self.col_max <= 8:
+            raise Exception('Grid too little for logo')
+        r_center = self.row_max // 2
+        c_center = self.col_max // 2
+        logo_coords: list[tuple[int, int]] = []
+        size = 3
+        # 4 - from top to bottom
+        y = r_center - size
+        x = c_center - size
+        logo_coords.append((x, y))
+        for _ in range(size - 1):
+            y += 1
+            logo_coords.append((x, y))
+        for _ in range(size-1):
+            x += 1
+            logo_coords.append((x, y))
+        for _ in range(size-1):
+            y += 1
+            logo_coords.append((x, y))
+        # 2 - from top to bottom
+        y = r_center - size
+        x = c_center + 1
+        logo_coords.append((x, y))
+        for _ in range(size - 1):
+            x += 1
+            logo_coords.append((x, y))
+        for _ in range(size-1):
+            y += 1
+            logo_coords.append((x, y))
+        for _ in range(size-1):
+            x -= 1
+            logo_coords.append((x, y))
+        for _ in range(size-1):
+            y += 1
+            logo_coords.append((x, y))
+        for _ in range(size-1):
+            x += 1
+            logo_coords.append((x, y))
+        return set(logo_coords)
+
+    # TODO - Later
+    def gen_inner_logo_coords(self) -> set:
+        """ generate logo coordinates"""
+        if self.row_max <= 8 or self.col_max <= 8:
+            raise Exception('Grid too little for logo')
+        r_center = self.row_max // 2
+        c_center = self.col_max // 2
+        inner_logo_coords: list[tuple[int, int]] = []
+        return set(inner_logo_coords)

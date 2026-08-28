@@ -7,13 +7,44 @@ import random
 # TODO: Remove global after config mgmt
 glob_mode = "perfect"
 
+class Wall:
+    BASESET = frozenset((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15))
+    PERFECTSET = frozenset((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14))
+
+
+class Dir(IntFlag):
+    N = 1  # 0001
+    E = 2  # 0010
+    S = 4  # 0100
+    W = 8  # 1000
+    # max (all close) = 15
+
+
+class Cell:
+    """ Case(-1, -1) for uninitialized object"""
+    def __init__(self,
+                 x: int,
+                 y: int,
+                 border: bool = False,
+                 logo: bool = False,
+                 logo_coridor: bool = False,
+                 logo_top: bool = False) -> None:
+        self.x = x
+        self.y = y
+        self.border = border  # cannot be open the same way
+        self.logo = logo
+        self.logo_coridor = False
+        self.logo_top = False
+        self.wall: int = 0b1111
+
+
 
 class Matrix:
     def __init__(self, row_max: int, col_max: int) -> None:
         self.row_max = row_max
         self.col_max = col_max
-        self.matrix: list[list[Case]] = [
-            [Case(-1, -1) for col in range(col_max)] for row in range(row_max)]
+        self.matrix: list[list[Cell]] = [
+            [Cell(-1, -1) for col in range(col_max)] for row in range(row_max)]
 
     def pregen_maze(self) -> None:
         """"define constraint before generating maze"""
@@ -34,7 +65,7 @@ class Matrix:
                 print(coord)
                 if coord in logoset:
                     logo = True
-                self.matrix[row][col] = Case(row, col,
+                self.matrix[row][col] = Cell(row, col,
                                              border=border,
                                              logo=logo)
 
@@ -95,11 +126,11 @@ class Matrix:
         for row in range(self.row_max):
             for col in range(self.col_max):
                 match self.matrix[row][col]:
-                    case Case(border=True):
+                    case Cell(border=True):
                         print("B", end="")
-                    case Case(logo=True):
+                    case Cell(logo=True):
                         print("L", end="")
-                    case Case(border=False):
+                    case Cell(border=False):
                         print("0", end="")
                     case _:
                         print("E", end="")
@@ -191,37 +222,6 @@ def gen_wallset(matrix: Matrix, row: int, col: int) -> set[int]:
         # difference
         wallset = wallset - set(n for n in baseset if n & wall)
     return wallset
-
-
-class Wall:
-    BASESET = frozenset((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15))
-    PERFECTSET = frozenset((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14))
-
-
-class Dir(IntFlag):
-    N = 1  # 0001
-    E = 2  # 0010
-    S = 4  # 0100
-    W = 8  # 1000
-    # max (all close) = 15
-
-
-class Case:
-    """ Case(-1, -1) for uninitialized object"""
-    def __init__(self,
-                 x: int,
-                 y: int,
-                 border: bool = False,
-                 logo: bool = False,
-                 logo_coridor: bool = False,
-                 logo_top: bool = False) -> None:
-        self.x = x
-        self.y = y
-        self.border = border  # cannot be open the same way
-        self.logo = logo
-        self.logo_coridor = False
-        self.logo_top = False
-        self.wall: int = 0
 
 
 if __name__ == "__main__":
