@@ -1,7 +1,10 @@
 from ._maze import Maze
-from ._cell import Cell
+from ._cell import Cell, Dir
+from ._generator import MazeGenDFS
 
 __all__ = [
     "Maze",
-    "Cell"
+    "Cell",
+    "Dir",
+    "MazeGenDFS"
     ]
