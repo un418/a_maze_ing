@@ -11,9 +11,8 @@ class Maze:
             [Cell(x, y) for x in range(self.width)]
             for y in range(self.height)]
 
-    def pregen_maze(self) -> None:
+    def pregen(self) -> None:
         """"define constraint before generating maze"""
-        # TODO: add logo logic
         for y in range(self.height):
             for x in range(self.width):
                 border = False

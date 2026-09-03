@@ -1,20 +1,29 @@
-# wip
+from ._maze import Maze
+
+
+class MazeLogoError(Exception):
+    """Raise if maze grid size is too litle to print the logo"""
+    def __init__(self, message: str = "Unknown Maze Logo error") -> None:
+        super().__init__(message)
+
+
 class Logo:
     def __init__(self, maze: Maze) -> None:
         self.maze = maze
-        self.center = (maze.width, maze)
+        self.center = (maze.width // 2, maze.height // 2)
 
-    def gen_logo_close_coordset(self) -> set:
+    def gen_coordset(self) -> set[tuple[int, int]]:
         """ generate logo fully closed cells coordinates"""
-        if self.row_max <= 8 or self.col_max <= 8:
-            raise Exception('Grid too little for logo')
-        r_center = self.row_max // 2
-        c_center = self.col_max // 2
+        if self.maze.width <= 8 or self.maze.width <= 8:
+            raise MazeLogoError(
+                'Maze grid is too little to print logo (min=8x8)')
         logo_coords: list[tuple[int, int]] = []
-        size = 3
+        scale_factor = 0  # TODO (Bonus) Scaling
+        # scale factor = ..... (depends on width and height)
+        size = 3 + scale_factor
+        x_center, y_center = self.center
         # 4 - from top to bottom
-        y = r_center - size
-        x = c_center - size
+        x, y = x_center - size, y_center - size
         logo_coords.append((x, y))
         for _ in range(size - 1):
             y += 1
@@ -26,8 +35,7 @@ class Logo:
             y += 1
             logo_coords.append((x, y))
         # 2 - from top to bottom
-        y = r_center - size
-        x = c_center + 1
+        x, y = x_center + 1, y_center - size
         logo_coords.append((x, y))
         for _ in range(size - 1):
             x += 1
@@ -45,13 +53,3 @@ class Logo:
             x += 1
             logo_coords.append((x, y))
         return set(logo_coords)
-
-    # TODO - Later
-    def gen_inner_logo_coords(self) -> set:
-        """ generate logo coordinates"""
-        if self.row_max <= 8 or self.col_max <= 8:
-            raise Exception('Grid too little for logo')
-        r_center = self.row_max // 2
-        c_center = self.col_max // 2
-        inner_logo_coords: list[tuple[int, int]] = []
-        return set(inner_logo_coords)

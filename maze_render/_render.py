@@ -3,12 +3,13 @@ from typing import Literal
 import subprocess
 import os
 
-from maze_generator import Maze, Cell, Dir
+from core import Dir, CellState
+from maze_generator import Maze, Cell
 
 RenderMode = Literal["default", "bits", "hex"]
 
 _BOX_RENDERERS: dict[RenderMode, Callable[[int], str]] = {
-    "default": lambda wall: "██" if wall == 0b1111 else "  ",
+    "default": lambda wall: "███" if wall == 0b1111 else "   ",
     "bits": lambda wall: f" {wall:04b} ",
     "hex": lambda wall: f" {wall:X} ",
 }
@@ -20,10 +21,10 @@ _BOX_RENDERERS: dict[RenderMode, Callable[[int], str]] = {
 # }
 
 
-
 class MazeRender:
     def __init__(self, maze: Maze) -> None:
         self.maze = maze
+        self.cell_render: dict[tuple[int, int], CellState] = {}
 
     def print_metadata(self) -> None:
         for row in self.maze.grid:
@@ -42,13 +43,14 @@ class MazeRender:
     def frame(self, mode: RenderMode = "default", cursor: Cell | None = None) -> str:
         """print the maze as a box drawing; `mode` picks how each cell body is rendered"""
         render_box = _BOX_RENDERERS[mode]
+        box_size = len(render_box(0b1111))
         lines: list[str] = []
         for row in self.maze.grid:
             top = ""
             mid = ""
             for cell in row:
                 wall = cell.wall
-                box = "░░" if cell is cursor else render_box(wall)
+                box = "░" * box_size if cell is cursor else render_box(wall)
                 width = len(box)
                 top += "+" + ("-" if wall & Dir.N else " ") * width
                 mid += ("|" if wall & Dir.W else " ") + box
@@ -68,8 +70,8 @@ class MazeRender:
         return "\n".join(lines)
 
     def clear(self) -> None:
-        # os.system('cls' if os.name == 'nt' else 'clear')
-        subprocess.run('cls' if os.name == 'nt' else 'clear')
+        os.system('cls' if os.name == 'nt' else 'clear')
+        # subprocess.run('cls' if os.name == 'nt' else 'clear')
 
     def flush(self, frame: str) -> None:
         print("\033[H" + frame)

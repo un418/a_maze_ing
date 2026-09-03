@@ -4,21 +4,9 @@ from enum import Enum
 from typing import Generator
 
 from ._maze import Maze
-from ._cell import Cell, Dir
+from ._cell import Cell
 
-
-class Step(Enum):
-    N = (0, -1)
-    E = (+1, 0)
-    S = (0, +1)
-    W = (-1, 0)
-
-
-class OppDir(Enum):
-    N = "S"
-    E = "W"
-    S = "N"
-    W = "E"
+from core import Dir, OppDir, Step
 
 
 class MazeGenDFS:
@@ -26,6 +14,10 @@ class MazeGenDFS:
         self.maze = maze
         self.start = (0, 0)
         self.visited: set[tuple[int, int]] = set()
+
+    def import_logoset(self, logoset: set[tuple[int, int]]) -> None:
+        """import logo coordinate"""
+        self.visited.update(logoset)
 
     def gen(self) -> Generator[Cell, None, int]:
         stack: deque = deque()
