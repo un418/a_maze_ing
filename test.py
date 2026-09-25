@@ -11,7 +11,7 @@ if __name__ == "__main__":
         render = MazeRender(maze)
         # render.print_metadata()
         logo_coordset = Logo(maze).gen_coordset()
-        # mazegen.import_logoset(logo_coordset)
+        mazegen.import_logoset(logo_coordset)
         gen = mazegen.gen()
         render.clear()
         render.disable_term_cursor()
@@ -20,7 +20,7 @@ if __name__ == "__main__":
                 cursor = next(gen)
                 frame = render.frame(mode="default", cursor=cursor)
                 render.flush(frame)
-                sleep(1/40)
+                sleep(1/150)
         except StopIteration as e:
             print(f"Maze generated in {e.value} ops")
         except Exception as e:
