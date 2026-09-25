@@ -1,47 +1,65 @@
+from copy import deepcopy
 from typing import Generator
 
 from maze_generator import Maze, Cell
-from core import Dir, Step, CellState
+from core import Dir, OppDir, Step, CellState
 
 
 class DeadEndSolver:
     def __init__(self, maze: Maze) -> None:
-        self.maze = maze
+        self.origin = maze
+        self.maze = deepcopy(maze)
         self.start = (0, 0)
         self.end = (self.maze.x_max, self.maze.y_max)  # TODO change later
         self.visited: set[tuple[int, int]] = set()
-        self.dead_end: list[tuple[int, int]] = []
         self.solution: list[tuple[int, int]] = []
 
-    def find_dead_end(self) -> None:
-        to_pop: list[int] = []
-        for y, row in enumerate(self.maze.grid):
-            for x, cell in enumerate(row):
-                if cell.wall.bit_count() == 3:
-                    self.dead_end.append((x, y))
-        for i, coord in enumerate(self.dead_end):
-            if coord in {self.start, self.end}:
-                to_pop.append(i)
-        for i in to_pop:
-            self.dead_end.pop(i)
+    def find_dead_end(self) -> list[tuple[int, int]]:
+        """dead ends of this pass: one opening left, start and end apart"""
+        keep_out = {self.start, self.end}
+        return [(cell.x, cell.y)
+                for row in self.maze.grid
+                for cell in row
+                if cell.wall.bit_count() == 3
+                and (cell.x, cell.y) not in keep_out]
 
-    def fill_dead_end(self) -> Generator[Cell, None, None]:
-        """walk from dead end to first met branch"""
-        self.find_dead_end()
-        for coord in self.dead_end:
-            x, y = coord
-            yield self.maze.grid[y][x]
-            while True:
-                self.visited.add((x, y))
-                next_step = self.walk(x, y)
-                dx, dy = Step[next_step].value
-                nx, ny = x + dx, y + dy
-                next_wall = self.maze.grid[ny][nx].wall
-                if next_wall.bit_count() == 1:
-                    break
-                x, y = nx, ny
-                yield self.maze.grid[y][x]
-        return
+    def opening(self, cell: Cell) -> str:
+        """the single direction a dead end is still open on"""
+        for step in Step:
+            if not cell.wall & Dir[step.name]:
+                return step.name
+        raise Exception(f"Solver opening error: ({cell.x},{cell.y}) is sealed")
+
+    def fill_cell(self, x: int, y: int) -> Generator[Cell, None, int]:
+        """seal a single dead end and stop, next pass takes its neighbour"""
+        if (x, y) in {self.start, self.end}:
+            return 0
+        cell = self.maze.grid[y][x]
+        if cell.wall.bit_count() != 3:
+            # not a dead end (any more): a branch, or already sealed
+            return 0
+        cell.state = CellState.DEAD_END
+        yield cell
+        step = self.opening(cell)
+        dx, dy = Step[step].value
+        nx, ny = x + dx, y + dy
+        cell.wall |= Dir[step].value
+        cell.state = CellState.SOLVER_VISITED
+        yield cell
+        if (0 <= nx <= self.maze.x_max and
+                0 <= ny <= self.maze.y_max):
+            self.maze.grid[ny][nx].wall |= Dir[OppDir[step].value].value
+        return 1
+
+    def fill_dead_end(self) -> Generator[Cell, None, int]:
+        """wall up every dead end, pass after pass, until none is left"""
+        op_count = 0
+        while True:
+            dead_end = self.find_dead_end()
+            if not dead_end:
+                return op_count
+            for x, y in dead_end:
+                op_count += yield from self.fill_cell(x, y)
 
     def solve(self) -> Generator[Cell, None, None]:
         x, y = self.start
@@ -84,48 +102,3 @@ class DeadEndSolver:
         if counter > 1:
             raise Exception("Solver walk error: should not happen")
         return ret
-
-    def render_export(self) -> dict[tuple[int, int], CellState]:
-        export: dict[tuple[int, int], CellState] = {}
-        # order is important here
-        for cell in self.dead_end:
-            export[cell] = CellState.DEAD_END
-        for cell in self.visited:
-            export[cell] = CellState.SOLVER_VISITED
-        return export
-
-
-"""     def dead_end_gen(self) -> Generator[Cell, None, int]:
-        stack: deque = deque()
-        op_count = 0
-        stack.append(self.start)
-        next_step = ""
-        x, y = self.start
-        first_block = True
-        yield self.maze.grid[y][x]
-        while stack:
-            x, y = stack[0]
-            self.visited.add((x, y))
-            possible_step = self.gen_possible_step(x, y)
-            if not possible_step:
-                if first_block:
-                    self.dead_end.append((x, y))
-                    first_block = False
-                stack.popleft()
-                op_count += 1
-                if stack:
-                    x, y = stack[0]
-                yield self.maze.grid[y][x]
-                continue
-            first_block = True
-            next_step = choice(possible_step)
-            dx, dy = Step[next_step].value
-            nx, ny = x + dx, y + dy
-            stack.appendleft((nx, ny))
-            self.maze.grid[y][x].wall -= Dir[next_step].value
-            self.maze.grid[ny][nx].wall -= Dir[OppDir[next_step].value].value
-            op_count += 1
-            yield self.maze.grid[ny][nx]
-        return op_count """
-
-

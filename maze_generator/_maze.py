@@ -12,15 +12,10 @@ class Maze:
             for y in range(self.height)]
 
     def pregen(self) -> None:
-        """"define constraint before generating maze"""
-        for y in range(self.height):
-            for x in range(self.width):
-                border = False
-                logo = False
-                # border
-                if (y == 0 or
-                        x == 0 or
-                        y == self.y_max or
-                        x == self.x_max):
-                    border = True
-                self.grid[y][x] = Cell(x, y, border=border, logo=logo)
+        """define constraint before generating maze"""
+        self.grid = [
+            [Cell(x, y,
+                  border=(y == 0 or x == 0 or
+                          y == self.y_max or x == self.x_max))
+             for x in range(self.width)]
+            for y in range(self.height)]

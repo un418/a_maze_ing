@@ -1,4 +1,4 @@
-from enum import IntFlag
+from core import CellState
 
 
 class Cell:
@@ -6,9 +6,11 @@ class Cell:
                  x: int,
                  y: int,
                  border: bool = False,
-                 logo: bool = False
+                 logo: bool = False,
+                 wall: int = 0b1111
                  ) -> None:
         self.x, self.y = x, y
         self.border = border
         self.logo = logo
-        self.wall: int = 0b1111
+        self.wall = wall
+        self.state: CellState | None = None

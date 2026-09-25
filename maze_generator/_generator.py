@@ -1,6 +1,5 @@
 from collections import deque
 from random import choice
-from enum import Enum
 from typing import Generator
 
 from ._maze import Maze
@@ -20,7 +19,7 @@ class MazeGenDFS:
         self.visited.update(logoset)
 
     def gen(self) -> Generator[Cell, None, int]:
-        stack: deque = deque()
+        stack: deque[tuple[int, int]] = deque()
         op_count = 0
         stack.append(self.start)
         next_step = ""
