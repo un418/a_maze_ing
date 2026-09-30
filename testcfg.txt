@@ -1,0 +1,14 @@
+# Main maze dimensions
+WIDTH=20
+HEIGHT=15
+
+# Coordinates (x,y)
+ENTRY=0,0
+EXIT=19,14
+
+# Output and generation mode
+OUTPUT_FILE=test_m=aze.txt
+PERFECT=False
+
+# Optional seed for reproducibility
+SEED=42
