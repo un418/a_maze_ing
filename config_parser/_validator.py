@@ -5,7 +5,7 @@ from typing import Any
 
 class ConfigData(BaseModel):
     """
-    Pydantic BaseModel that validates config data. No Defaults for mandatories.
+    Pydantic BaseModel that validates config data. No Defalts for mandatories.
     The project says that all of these values (except 'seed') are mandatory.
     They cannot have default values and pydantic should raise an exception
 
