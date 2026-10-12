@@ -19,12 +19,13 @@ class MazeGenDFS:
         self.visited.update(logoset)
 
     def gen(self) -> Generator[Cell, None, int]:
+        """Creating a maze from a completely closed grid of 'Cell'"""
         stack: deque[tuple[int, int]] = deque()
         op_count = 0
         stack.append(self.start)
         next_step = ""
         x, y = self.start
-        yield self.maze.grid[y][x]
+        yield self.maze.grid[y][x] # 'yield' for the animation?
         while stack:
             x, y = stack[0]
             self.visited.add((x, y))

@@ -1,3 +1,4 @@
+
 from maze_generator import Maze, MazeGenDFS, Logo
 from maze_render import MazeRender
 from maze_solver import DeadEndSolver
