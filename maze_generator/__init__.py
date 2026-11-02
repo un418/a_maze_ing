@@ -1,3 +1,5 @@
+"""Maze grid, cells, logo and DFS generator."""
+
 from ._maze import Maze
 from ._cell import Cell
 from ._generator import MazeGenDFS
