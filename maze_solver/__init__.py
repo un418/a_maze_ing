@@ -1,6 +1,6 @@
 """Maze solvers."""
 
-from ._solver import DeadEndSolver
+from ._dead_end_solver import DeadEndSolver
 
 __all__ = [
     "DeadEndSolver"

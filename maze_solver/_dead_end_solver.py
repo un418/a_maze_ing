@@ -1,4 +1,8 @@
-"""Maze solving by dead-end filling."""
+"""Maze solving by dead-end filling.
+
+Classes:
+    DeadEndSolver: Seals dead ends until only the path is left.
+"""
 
 from copy import deepcopy
 from typing import Generator
