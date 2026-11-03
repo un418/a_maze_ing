@@ -1,4 +1,4 @@
-"""Maze generation algorithms.
+"""Depth-first search maze generation.
 
 Classes:
     MazeGenDFS: Randomized depth-first search (recursive backtracker).
