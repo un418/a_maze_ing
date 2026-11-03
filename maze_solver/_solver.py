@@ -10,7 +10,7 @@ from core import Dir, OppDir, Step, CellState
 class DeadEndSolver:
     """Solves a maze by sealing dead ends until only the path is left.
 
-    Works on a deep copy so the original maze stays untouched.
+    Works on a deep copy, so several solvers can share one maze.
 
     Attributes:
         origin: Maze given to the solver.

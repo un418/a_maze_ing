@@ -1,4 +1,4 @@
-"""Dead-end filling maze solver."""
+"""Maze solvers."""
 
 from ._solver import DeadEndSolver
 

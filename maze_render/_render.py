@@ -22,25 +22,25 @@ _BOX_RENDERERS: dict[RenderMode, Callable[[int, CellState | None], str]] = {
 
 
 class MazeRender:
-    """Draws a maze in the terminal and handles the screen around it.
+    """Renders a maze in the terminal and handles the screen around it.
 
     Attributes:
-        maze: Maze currently drawn.
+        maze: Maze currently rendered.
     """
 
     def __init__(self, maze: Maze) -> None:
         """Bind the renderer to `maze`.
 
         Args:
-            maze: Maze to draw.
+            maze: Maze to render.
         """
         self.maze = maze
 
     def attach(self, maze: Maze) -> None:
-        """Draw another maze from now on, e.g. the solver's working copy.
+        """Render another maze from now on, e.g. the solver's working copy.
 
         Args:
-            maze: Maze to draw instead of the current one.
+            maze: Maze to render instead of the current one.
         """
         self.maze = maze
 
@@ -63,7 +63,7 @@ class MazeRender:
               mode: RenderMode = "default",
               cursor: Cell | None = None
               ) -> str:
-        """Draw the maze as boxes.
+        """Render the maze as boxes.
 
         Args:
             mode: How a cell body is rendered (see `_BOX_RENDERERS`).
@@ -108,7 +108,7 @@ class MazeRender:
         """Print `frame` from the top-left corner, over the previous one.
 
         Args:
-            frame: Maze drawing, as returned by `frame()`.
+            frame: Rendered maze, as returned by `frame()`.
         """
         print("\033[H" + frame)
 

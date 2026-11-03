@@ -1,4 +1,4 @@
-"""Maze grid, cells, logo and DFS generator."""
+"""Maze grid, cells, logo and generation algorithms."""
 
 from ._maze import Maze
 from ._cell import Cell

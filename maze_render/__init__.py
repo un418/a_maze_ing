@@ -1,4 +1,4 @@
-"""Terminal renderer for mazes."""
+"""Maze renderers."""
 
 from ._render import MazeRender
 

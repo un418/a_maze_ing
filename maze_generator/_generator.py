@@ -1,4 +1,8 @@
-"""Maze generation by randomized depth-first search."""
+"""Maze generation algorithms.
+
+Classes:
+    MazeGenDFS: Randomized depth-first search (recursive backtracker).
+"""
 
 from collections import deque
 from random import choice
@@ -30,7 +34,7 @@ class MazeGenDFS:
         self.visited: set[tuple[int, int]] = set()
 
     def import_logoset(self, logoset: set[tuple[int, int]]) -> None:
-        """Import the logo coordinates so the DFS never carves them.
+        """Add logo cells to the visited set so the DFS never carves them.
 
         Args:
             logoset: (x, y) coordinates of the logo cells.
@@ -38,7 +42,7 @@ class MazeGenDFS:
         self.visited.update(logoset)
 
     def gen(self) -> Generator[Cell, None, int]:
-        """Carve the maze one step at a time.
+        """Carve the maze lazily, one step per iteration.
 
         Yields:
             The cell the DFS is currently on, after each move or backtrack.

@@ -23,7 +23,7 @@ class Cell:
                  logo: bool = False,
                  wall: int = 0b1111
                  ) -> None:
-        """Create a cell at (x, y), fully closed unless `wall` says so.
+        """Create a cell at (x, y), with all walls closed by default.
 
         Args:
             x: Column index in the grid.
