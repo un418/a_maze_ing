@@ -1,5 +1,5 @@
 from maze_generator import Maze, MazeGenDFS, Logo
-from maze_render import MazeRender
+from maze_render import AsciiMazeRender
 from maze_solver import DeadEndSolver
 from time import sleep
 
@@ -8,7 +8,7 @@ if __name__ == "__main__":
         maze = Maze(30, 10)
         # maze.pregen()
         mazegen = MazeGenDFS(maze)
-        render = MazeRender(maze)
+        render = AsciiMazeRender(maze)
         # render.print_metadata()
         logo_coordset = Logo(maze).gen_coordset()
         mazegen.import_logoset(logo_coordset)
