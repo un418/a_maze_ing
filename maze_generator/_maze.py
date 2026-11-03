@@ -34,6 +34,7 @@ class Maze:
 
         Rebuilds the grid with the outer cells flagged as `border`.
         """
+        # TODO (#6) Probably useless now, check later
         self.grid = [
             [Cell(x, y,
                   border=(y == 0 or x == 0 or
