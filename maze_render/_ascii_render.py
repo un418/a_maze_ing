@@ -46,6 +46,7 @@ class AsciiMazeRender:
         Args:
             maze: Maze to render instead of the current one.
         """
+        # TODO (#10) Maybe a second renderer can do the job, check later
         self.maze = maze
 
     def print_metadata(self) -> None:
