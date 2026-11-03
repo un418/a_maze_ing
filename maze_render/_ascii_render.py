@@ -1,4 +1,8 @@
-"""Terminal rendering of a maze as ASCII boxes."""
+"""ASCII maze rendering.
+
+Classes:
+    AsciiMazeRender: Terminal renderer showing the maze as ASCII boxes.
+"""
 
 from collections.abc import Callable
 from typing import Literal
@@ -21,7 +25,7 @@ _BOX_RENDERERS: dict[RenderMode, Callable[[int, CellState | None], str]] = {
 }
 
 
-class MazeRender:
+class AsciiMazeRender:
     """Renders a maze in the terminal and handles the screen around it.
 
     Attributes:

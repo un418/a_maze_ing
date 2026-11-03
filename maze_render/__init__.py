@@ -1,7 +1,7 @@
 """Maze renderers."""
 
-from ._render import MazeRender
+from ._ascii_render import AsciiMazeRender
 
 __all__ = [
-    "MazeRender"
+    "AsciiMazeRender"
     ]
