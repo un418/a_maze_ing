@@ -2,17 +2,28 @@ _This project has been created as part of the 42 curriculum by adaferna, apinho-
 
 # A-Maze-ing
 
-Table of Contents
-* [Description](#description)
-* [Instructions](#instructions)
-* [Config file](#config-file)
-* [Maze generation](#maze-generation)
-* [Maze solving](#maze-solving)
-* [Reusable module](#reusable-module)
-* [Team and project management](#team-and-project-management)
-* [Bonus](#bonus)
-* [Resources](#resources)
-  * [AI Usage](#ai-usage)
+## Table of Contents
+
+- [Description](#description)
+- [Instructions](#instructions)
+- [Config file](#config-file)
+- [Maze generation](#maze-generation)
+  - [Algorithm](#algorithm)
+  - [Why this algorithm](#why-this-algorithm)
+- [Maze solving](#maze-solving)
+  - [Algorithm](#algorithm-1)
+  - [Why this algorithm](#why-this-algorithm-1)
+- [Reusable module](#reusable-module)
+  - [Basic usage](#basic-usage)
+  - [Custom parameters](#custom-parameters)
+  - [Maze structure and solution](#maze-structure-and-solution)
+- [Team and project management](#team-and-project-management)
+  - [Roles](#roles)
+  - [Planning](#planning)
+  - [Tools](#tools)
+- [Bonus](#bonus)
+- [Resources](#resources)
+  - [AI Usage](#ai-usage)
 
 ## Description
 
@@ -74,7 +85,8 @@ The cells of the "42" are marked as visited before starting, so the DFS never op
 
 ### Why this algorithm
 
-We picked the randomized DFS because it is one of the simplest maze algorithms to write: a stack, a set of visited cells, and one wall opened at each step. Like every spanning-tree algorithm, it always gives a perfect maze: each cell is reached exactly once, so there is no loop and no closed-off area.
+- **Simple to write**: a stack, a set of visited cells, and one wall opened at each step.
+- **Always a perfect maze**: like every spanning-tree algorithm, each cell is reached exactly once, so there is no loop and no closed-off area.
 
 ## Maze solving
 
@@ -106,13 +118,20 @@ Mostly because it looks cool. In the animation, every dead-end corridor shrinks 
 - **adaferna**: maze generation, solver and terminal render.
 - **apinho-a**: config file parsing and validation.
 
+Each of us owns some parts, but we stay up to date on each other's:
+
+- **Sharing**: we share what we do, so both of us know the other's parts.
+- **Kanban**: we brainstorm together when we define the tasks on the board.
+- **PR reviews**: reviewing the other's code is how we learn it, and the other's point of view often helps improve it.
+
 ### Planning
 
-### What worked well and what could be improved
+> Your anticipated planning and how it evolved until the end - _From Subject_
 
 ### Tools
 
 - **GitHub Projects**: a kanban board to follow our tasks.
+- **Slack**: to share news and stay in touch day to day.
 - **Issues and pull requests**: one issue per task, one branch per issue, and every PR is reviewed by the other teammate before it's merged into `master`.
 
 ## Bonus
@@ -121,20 +140,18 @@ Mostly because it looks cool. In the animation, every dead-end corridor shrinks 
 
 ## Resources
 
-* [Maze generation algorithm](https://en.wikipedia.org/wiki/Maze_generation_algorithm) and [Maze-solving algorithm](https://en.wikipedia.org/wiki/Maze-solving_algorithm) on Wikipedia: the classic algorithms, all in one place.
-* [Randomized Depth-First Search Algorithm for Maze Generation](https://medium.com/@nacerkroudir/randomized-depth-first-search-algorithm-for-maze-generation-fb2d83702742) by Nacer Kroudir, with [his Python code](https://github.com/NacerKROUDIR/MazeGeneration/blob/main/Maze_Generator.py).
-* [Maze Generation Algorithms - An Exploration](https://professor-l.github.io/mazes/): each algorithm animated, with a short explanation.
-* [42BELGIUM: A-MAZE-ING | Random Maze Generation & Visualisation](https://www.youtube.com/watch?v=TnMn02CwirY) (YouTube).
-* [Choose a License](https://choosealicense.com/): to pick the license of the reusable module.
-* [Obsidian.md](https://obsidian.md/) to take notes while working on this project. You can find them [here](https://github.com/un418/42.common.core/blob/master/_docs/99_Projects/M2_A-Maze_Ing.md).
+- [Maze generation algorithm](https://en.wikipedia.org/wiki/Maze_generation_algorithm) and [Maze-solving algorithm](https://en.wikipedia.org/wiki/Maze-solving_algorithm) on Wikipedia: the classic algorithms, all in one place.
+- [Randomized Depth-First Search Algorithm for Maze Generation](https://medium.com/@nacerkroudir/randomized-depth-first-search-algorithm-for-maze-generation-fb2d83702742) by Nacer Kroudir
+- [Maze Generation Algorithms - An Exploration](https://professor-l.github.io/mazes/): each algorithm animated, with a short explanation.
+- [Choose a License](https://choosealicense.com/): to pick the license of the reusable module.
+- [Obsidian.md](https://obsidian.md/) to take notes while working on this project. You can find them [here](https://github.com/un418/42.common.core/blob/master/_docs/99_Projects/M2_A-Maze_Ing.md).
 
 ### AI Usage
 
 Claude (Anthropic) was used during this project for:
-* **Clarifying concepts**: graphs and spanning trees, maze algorithms, bitmasks, packaging.
-* **Reviews**: it plays a 42 evaluator on the project. It points out what doesn't match the subject yet and gives hints, never the fix.
-* **Planning**: splitting what's left to do into tasks.
-* **Docstrings**: drafting the Google-style docstrings of `core`, `maze_generator`, `maze_render` and `maze_solver`, following the convention we set in [#3](https://github.com/un418/a_maze_ing/issues/3).
-* **This README**: structure and English.
+- **Clarifying concepts**: graphs and spanning trees, maze algorithms, bitmasks, packaging.
+- **Project management**: tidying the GitHub Projects board (formatting the issues, filling in labels, assignees and status). Only the tedious part: it never suggested solutions or design approaches, which stay ours.
+- **Docstrings**: drafting the Google-style docstrings of `core`, `maze_generator`, `maze_render` and `maze_solver`, following the convention we set in [#3](https://github.com/un418/a_maze_ing/issues/3).
+- **This README**: structure and English.
 
 AI-assisted or not, every change goes through a PR reviewed by the other teammate.
