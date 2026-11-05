@@ -7,6 +7,7 @@ Table of Contents
 * [Instructions](#instructions)
 * [Config file](#config-file)
 * [Maze generation](#maze-generation)
+* [Maze solving](#maze-solving)
 * [Reusable module](#reusable-module)
 * [Team and project management](#team-and-project-management)
 * [Bonus](#bonus)
@@ -72,6 +73,21 @@ SEED=42
 The cells of the "42" are marked as visited before starting, so the DFS never opens them and they stay fully closed.
 
 ### Why this algorithm
+
+## Maze solving
+
+### Algorithm
+
+**Dead-end filling**. Instead of looking for the path, the solver removes everything that is *not* the path.
+
+1. Find every dead end: a cell with only one opening left (3 walls closed), except the entry and the exit.
+2. Wall it up: close its last opening, on both sides. Its neighbour may now become a dead end too.
+3. Do it again, pass after pass, until there is no dead end left.
+4. Only the path from the entry to the exit is still open: walk it from the entry, there is only one way to go at each cell.
+
+### Why this algorithm
+
+Mostly because it looks cool. In the animation, every dead-end corridor shrinks back at the same time, one cell per pass, until only the solution is left. A BFS or an A\* would find the path just as well, but watching them is much less fun.
 
 ## Reusable module
 
