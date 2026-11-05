@@ -74,6 +74,8 @@ The cells of the "42" are marked as visited before starting, so the DFS never op
 
 ### Why this algorithm
 
+We picked the randomized DFS because it is one of the simplest maze algorithms to write: a stack, a set of visited cells, and one wall opened at each step. Like every spanning-tree algorithm, it always gives a perfect maze: each cell is reached exactly once, so there is no loop and no closed-off area.
+
 ## Maze solving
 
 ### Algorithm
