@@ -1,8 +1,7 @@
-
 from ._validator import ConfigData
 
 
-def dict_builder(config_name: str) -> dict[str, str]:
+def config_parser(config_name: str) -> dict[str, str]:
     """
     Builds a dictionary from the 'config.txt'
 
@@ -15,13 +14,15 @@ def dict_builder(config_name: str) -> dict[str, str]:
         for line in config:
             line = line.strip()
 
-            if not line or line.startswith('#'):
+            if not line or line.startswith("#"):
                 continue
 
-            if '=' not in line:
+            if "=" not in line:
                 raise ValueError(f"{line} doesn't follow the 'KEY=VALUE' format")
 
-            key, value = line.split('=', maxsplit=1) # Only splits first '='. Value can have a '='
+            key, value = line.split(
+                "=", maxsplit=1
+            )  # Only splits first '='. Value can have a '='
             key = key.strip()
             value = value.strip()
 
@@ -33,7 +34,7 @@ def dict_builder(config_name: str) -> dict[str, str]:
     return config_data
 
 
-def config_importer(filepath: str) -> ConfigData:
+def config_validator(filepath: str) -> ConfigData:
     """
     Handles the config import and validation.
     Returns object with validated data.
@@ -45,4 +46,4 @@ def config_importer(filepath: str) -> ConfigData:
     """
 
     config_data: dict[str, str] = dict_builder(filepath)
-    return ConfigData(**config_data) # type: ignore
+    return ConfigData(**config_data)
