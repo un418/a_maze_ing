@@ -1,3 +1,5 @@
+"""Shared enums for walls, directions and cell states."""
+
 from .maze_enum import Dir, OppDir, Step, CellState
 
 __all__ = [

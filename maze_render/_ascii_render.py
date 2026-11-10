@@ -1,3 +1,9 @@
+"""ASCII maze rendering.
+
+Classes:
+    AsciiMazeRender: Terminal renderer showing the maze as ASCII boxes.
+"""
+
 from collections.abc import Callable
 from typing import Literal
 import os
@@ -7,6 +13,7 @@ from maze_generator import Maze, Cell
 
 RenderMode = Literal["default", "bits", "hex"]
 
+# Cell body renderers: (wall mask, solver state) -> box content
 _BOX_RENDERERS: dict[RenderMode, Callable[[int, CellState | None], str]] = {
     "default": lambda wall, state: (
         "▒▒▒" if state is CellState.DEAD_END
@@ -18,15 +25,32 @@ _BOX_RENDERERS: dict[RenderMode, Callable[[int, CellState | None], str]] = {
 }
 
 
-class MazeRender:
+class AsciiMazeRender:
+    """Renders a maze in the terminal and handles the screen around it.
+
+    Attributes:
+        maze: Maze currently rendered.
+    """
+
     def __init__(self, maze: Maze) -> None:
+        """Bind the renderer to `maze`.
+
+        Args:
+            maze: Maze to render.
+        """
         self.maze = maze
 
     def attach(self, maze: Maze) -> None:
-        """draw another maze from now on, e.g. the solver's working copy"""
+        """Render another maze from now on, e.g. the solver's working copy.
+
+        Args:
+            maze: Maze to render instead of the current one.
+        """
+        # TODO (#10) Maybe a second renderer can do the job, check later
         self.maze = maze
 
     def print_metadata(self) -> None:
+        """Print the grid flags: B (border), L (logo), 0 (plain), E (error)."""
         for row in self.maze.grid:
             for cell in row:
                 match cell:
@@ -44,7 +68,15 @@ class MazeRender:
               mode: RenderMode = "default",
               cursor: Cell | None = None
               ) -> str:
-        """draw the maze as boxes; `mode` picks how a cell body is rendered"""
+        """Render the maze as boxes.
+
+        Args:
+            mode: How a cell body is rendered (see `_BOX_RENDERERS`).
+            cursor: Cell to highlight, e.g. the generator's current cell.
+
+        Returns:
+            The whole maze as a multi-line string.
+        """
         render_box = _BOX_RENDERERS[mode]
         box_size = len(render_box(0b1111, None))
         lines: list[str] = []
@@ -74,13 +106,21 @@ class MazeRender:
         return "\n".join(lines)
 
     def clear(self) -> None:
+        """Clear the terminal."""
         os.system('cls' if os.name == 'nt' else 'clear')
 
     def flush(self, frame: str) -> None:
+        """Print `frame` from the top-left corner, over the previous one.
+
+        Args:
+            frame: Rendered maze, as returned by `frame()`.
+        """
         print("\033[H" + frame)
 
     def disable_term_cursor(self) -> None:
+        """Hide the terminal cursor during the animation."""
         print("\033[?25l")
 
     def enable_term_cursor(self) -> None:
+        """Show the terminal cursor again."""
         print("\033[?25h")

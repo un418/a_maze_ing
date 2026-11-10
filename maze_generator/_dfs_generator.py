@@ -1,3 +1,9 @@
+"""Depth-first search maze generation.
+
+Classes:
+    MazeGenDFS: Randomized depth-first search (recursive backtracker).
+"""
+
 from collections import deque
 from random import choice
 from typing import Generator
@@ -9,16 +15,42 @@ from core import Dir, OppDir, Step
 
 
 class MazeGenDFS:
+    """Carves a maze with an iterative randomized DFS (backtracker).
+
+    Attributes:
+        maze: Maze whose walls get carved in place.
+        start: (x, y) the carving starts from.
+        visited: Coordinates already carved or reserved (e.g. the logo).
+    """
+
     def __init__(self, maze: Maze) -> None:
+        """Prepare a generator that carves `maze` from the top-left cell.
+
+        Args:
+            maze: Maze whose walls get carved in place.
+        """
         self.maze = maze
         self.start = (0, 0)
         self.visited: set[tuple[int, int]] = set()
 
     def import_logoset(self, logoset: set[tuple[int, int]]) -> None:
-        """import logo coordinate"""
+        """Add logo cells to the visited set so the DFS never carves them.
+
+        Args:
+            logoset: (x, y) coordinates of the logo cells.
+        """
         self.visited.update(logoset)
 
     def gen(self) -> Generator[Cell, None, int]:
+        """Carve the maze lazily, one step per iteration.
+
+        Yields:
+            The cell the DFS is currently on, after each move or backtrack.
+
+        Returns:
+            Number of operations (moves + backtracks), as
+            `StopIteration.value`.
+        """
         stack: deque[tuple[int, int]] = deque()
         op_count = 0
         stack.append(self.start)
@@ -47,7 +79,15 @@ class MazeGenDFS:
         return op_count
 
     def gen_possible_step(self, x: int, y: int) -> list[str]:
-        """look for unvisited neighboor while taking care of the borders """
+        """Look for unvisited neighbours while taking care of the borders.
+
+        Args:
+            x: Column of the current cell.
+            y: Row of the current cell.
+
+        Returns:
+            Direction names ("N", "S", "W", "E") the DFS can move to.
+        """
         ret: list[str] = []
         if (y != 0 and
                 (x, y - 1) not in self.visited):
