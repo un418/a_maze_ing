@@ -45,5 +45,5 @@ def config_validator(filepath: str) -> ConfigData:
         OSError: If the configuration file cannot be opened or read.
     """
 
-    config_data: dict[str, str] = dict_builder(filepath)
+    config_data: dict[str, str] = config_parser(filepath)
     return ConfigData(**config_data)
