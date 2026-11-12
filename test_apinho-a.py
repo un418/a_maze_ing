@@ -45,12 +45,6 @@ Usage: poetry run python3 <PROGRAM.py> <config.txt>"
             print(f"Caught {type(e).__name__}: {e}")
         finally:
             render.enable_term_cursor()
-
-        # TESTING OUTPUT
-        test = OutputFileContructor(mazegen, val_data)
-        test.constructor()
-        sys.exit(1111)
-
         # Solving
         solver = DeadEndSolver(maze)
         render.attach(solver.maze)
@@ -62,12 +56,20 @@ Usage: poetry run python3 <PROGRAM.py> <config.txt>"
                 frame = render.frame(mode="default")
                 render.flush(frame)
                 sleep(1 / 60)
+
         except StopIteration as e:
             print(f"Maze solved in {e.value} ops")
         except Exception as e:
             print(f"Caught {type(e).__name__}: {e}")
         finally:
             render.enable_term_cursor()
+            for x in solver.solve():
+                pass
+
+            # TESTING OUTPUT
+            test = OutputFileContructor(mazegen, val_data, solver)
+            test.constructor()
+            sys.exit(1111)
 
     except (KeyboardInterrupt, EOFError):
         print("\n Program interrupted by user")
