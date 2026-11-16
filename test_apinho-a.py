@@ -5,7 +5,7 @@ from config_parser import ConfigData, ValidationError, config_validator
 from maze_generator import Logo, Maze, MazeGenDFS
 from maze_render import AsciiMazeRender
 from maze_solver import DeadEndSolver
-from output_file import OutputFileContructor
+from output_file import OutputFile
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -22,7 +22,7 @@ Usage: poetry run python3 <PROGRAM.py> <config.txt>"
         sys.exit(42)
 
     try:
-        maze = Maze(val_data.WIDTH, val_data.HEIGHT)
+        maze = Maze(val_data.WIDTH, val_data.HEIGHT, val_data.ENTRY, val_data.EXIT)
         # maze.pregen()
         mazegen = MazeGenDFS(maze)
         render = AsciiMazeRender(maze)
@@ -67,9 +67,8 @@ Usage: poetry run python3 <PROGRAM.py> <config.txt>"
                 pass
 
             # TESTING OUTPUT
-            test = OutputFileContructor(mazegen, val_data, solver)
+            test = OutputFile(mazegen, val_data, solver)
             test.constructor()
-            sys.exit(1111)
 
     except (KeyboardInterrupt, EOFError):
         print("\n Program interrupted by user")

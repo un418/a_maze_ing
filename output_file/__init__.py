@@ -1,5 +1,5 @@
-from ._file import OutputFileContructor
+from ._file import OutputFile
 
 __all__ = [
-    "OutputFileContructor",
+    "OutputFile",
 ]
