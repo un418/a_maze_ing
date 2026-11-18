@@ -2,9 +2,10 @@ import sys
 from time import sleep
 
 from config_parser import ConfigData, ValidationError, config_validator
+from core import CellState
 from maze_generator import Braider, Logo, Maze, MazeGenDFS
 from maze_render import AsciiMazeRender
-from maze_solver import DeadEndSolver
+from maze_solver import BFSsolver, DeadEndSolver
 from output_file import OutputFile
 
 if __name__ == "__main__":
@@ -49,26 +50,41 @@ Usage: poetry run python3 <PROGRAM.py> <config.txt>"
             maze_braider = Braider(maze)
             maze_braider.gen_braiding()
 
-        # Solving
-        solver = DeadEndSolver(maze)
-        render.attach(solver.maze)
-        render.disable_term_cursor()
-        try:
-            solver_iter = solver.fill_dead_end()
-            while solver_iter:
-                cursor = next(solver_iter)
-                frame = render.frame(mode="default")
-                render.flush(frame)
-                sleep(1 / 60)
+            # Solving non-Perfect
+            solver = BFSsolver(maze)
+            render.attach(solver.maze)
+            render.disable_term_cursor()
+            try:
+                solved_path = solver.solver()
+                for x, y in solved_path:
+                    solver.maze.grid[y][x].state = CellState.SOLVER_VISITED
+                    render.flush(render.frame(mode="default"))
+                    sleep(1 / 60)
 
-        except StopIteration as e:
-            print(f"Maze solved in {e.value} ops")
-        except Exception as e:
-            print(f"Caught {type(e).__name__}: {e}")
-        finally:
-            render.enable_term_cursor()
-            for x in solver.solve():
-                pass
+            except StopIteration as e:
+                print(f"Maze solved in {e.value} ops")
+            except Exception as e:
+                print(f"Caught {type(e).__name__}: {e}")
+            finally:
+                render.enable_term_cursor()
+                for x in solver.solver():
+                    pass
+        else:
+            # Solving Perfect
+            solver = DeadEndSolver(maze)
+            render.attach(solver.maze)
+            render.disable_term_cursor()
+            try:
+                solver_iter = solver.fill_dead_end()
+                while solver_iter:
+                    frame = render.frame(mode="default")
+                    render.flush(frame)
+                    sleep(1 / 60)
+
+            except StopIteration as e:
+                print(f"Maze solved in {e.value} ops")
+            except Exception as e:
+                print(f"Caught {type(e).__name__}: {e}")
 
             # TESTING OUTPUT
             test = OutputFile(mazegen, val_data, solver)
