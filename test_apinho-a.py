@@ -2,7 +2,7 @@ import sys
 from time import sleep
 
 from config_parser import ConfigData, ValidationError, config_validator
-from maze_generator import Logo, Maze, MazeGenDFS
+from maze_generator import Braider, Logo, Maze, MazeGenDFS
 from maze_render import AsciiMazeRender
 from maze_solver import DeadEndSolver
 from output_file import OutputFile
@@ -30,7 +30,6 @@ Usage: poetry run python3 <PROGRAM.py> <config.txt>"
         logo_coordset = Logo(maze).gen_coordset()
         mazegen.import_logoset(logo_coordset)
         gen = mazegen.gen()
-
         render.clear()
         render.disable_term_cursor()
         try:
@@ -45,6 +44,11 @@ Usage: poetry run python3 <PROGRAM.py> <config.txt>"
             print(f"Caught {type(e).__name__}: {e}")
         finally:
             render.enable_term_cursor()
+        # Non perfect step
+        if not val_data.PERFECT:
+            maze_braider = Braider(maze)
+            maze_braider.gen_braiding()
+
         # Solving
         solver = DeadEndSolver(maze)
         render.attach(solver.maze)
