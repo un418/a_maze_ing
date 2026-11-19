@@ -2,10 +2,8 @@
 
 from typing import IO
 
-from config_parser import ConfigData
 from core import Step
-from maze_generator import MazeGenDFS
-from maze_solver import DeadEndSolver
+from maze_generator import Maze
 
 
 class OutputFile:
@@ -17,9 +15,7 @@ class OutputFile:
         solver: Solver holding the route from entry to exit.
     """
 
-    def __init__(
-        self, mazegen: MazeGenDFS, val_data: ConfigData, solver: DeadEndSolver
-    ):
+    def __init__(self, maze: Maze, file_name: str, solution: list[tuple[int, int]]):
         """Store the maze, configuration, and solver used for output.
 
         Args:
@@ -28,23 +24,49 @@ class OutputFile:
             solver: Solver whose solution has already been populated.
         """
 
-        self.mazegen = mazegen
-        self.val_data = val_data
-        self.solver = solver
+        self.maze = maze
+        self.file_name = file_name
+        self.solution = solution
 
     def constructor(self) -> None:  # handle excpetions outside
         """Create the output file and write the maze, endpoints, and path.
 
-        An existing output file is overwritten.
- 
+        Validate the solution before opening the file for writing.
+
         Raises:
             OSError: If the output file cannot be created or written.
-            ValueError: If a path step does not match a cardinal direction.
+            ValueError: If the solution is invalid or a path step does not
+                match a cardinal direction.
         """
-        with open(f"{self.val_data.OUTPUT_FILE}", "w") as file:
-            self._maze_layout_writer(file, self.mazegen.maze.grid)
+        if not self._validate_solution():
+            raise ValueError("Invalid solution list")
+        with open(self.file_name, "w") as file:
+            self._maze_layout_writer(file, self.maze.grid)
             self._entry_exit_writer(file)
             self._path_dir_writer(file)
+
+    def _validate_solution(self) -> bool:
+        """Check the basic requirements of the recorded solution.
+
+        The list must be nonempty, run from the entry to the exit, and have
+        no consecutive duplicate coordinates.
+
+        Returns:
+            True if these checks pass, otherwise False.
+        """
+        if not len(self.solution):
+            return False
+        if self.solution[0] != self.maze.entry:
+            return False
+        if self.solution[-1] != self.maze.exit:
+            return False
+        for i in range(len(self.solution) - 1):
+            curr: tuple[int, int] = self.solution[i]
+            foll: tuple[int, int] = self.solution[i + 1]
+            if curr == foll:
+                return False
+
+        return True
 
     def _maze_layout_writer(self, file: IO, grid: list[list]) -> None:
         """Write each row of cell wall masks as hexadecimal digits.
@@ -66,16 +88,16 @@ class OutputFile:
         Args:
             file: Open output file.
         """
-        entry_x, entry_y = self.val_data.ENTRY
-        exit_x, exit_y = self.val_data.EXIT
+        entry_x, entry_y = self.maze.entry
+        exit_x, exit_y = self.maze.exit
         file.write(f"{entry_x},{entry_y}\n")
         file.write(f"{exit_x},{exit_y}\n")
 
     def _path_dir_writer(self, file: IO) -> None:
         """Write the solution as a sequence of cardinal direction letters.
 
-        Convert consecutive coordinates to directions, then add the final
-        move to the exit, which the solver omits from its solution list.
+        Convert each consecutive pair into a direction, including the move
+        into the exit.
 
         Args:
             file: Open output file.
@@ -83,20 +105,13 @@ class OutputFile:
         Raises:
             ValueError: If a coordinate difference is not a cardinal step.
         """
-        sol_list: list[tuple[int, int]] = self.solver.solution
-        for i in range(len(sol_list) - 1):
-            curr: tuple[int, int] = sol_list[i]
-            foll: tuple[int, int] = sol_list[i + 1]
+        for i in range(len(self.solution) - 1):
+            curr: tuple[int, int] = self.solution[i]
+            foll: tuple[int, int] = self.solution[i + 1]
 
             delta: tuple[int, int] = (foll[0] - curr[0], foll[1] - curr[1])
             file.write(Step(delta).name)
 
-        last_step = sol_list[len(sol_list) - 1]
-        delta = (
-            self.mazegen.maze.exit[0] - last_step[0],
-            self.mazegen.maze.exit[1] - last_step[1],
-        )
-        file.write(Step(delta).name)
         file.write("\n")
 
     @staticmethod
