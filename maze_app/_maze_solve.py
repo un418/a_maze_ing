@@ -13,23 +13,24 @@ class NotSolvedError(Exception):
 
 
 def maze_solver(
-    val_data: ConfigData, maze: Maze, render: AsciiMazeRender
+    val_data: ConfigData, maze: Maze, render: AsciiMazeRender, status_lines: list[str]
 ) -> list[tuple[int, int]]:
     # Non perfect step
-    try:
-        if not val_data.PERFECT:
-            solved_path = non_perfect_solver(maze, render)
-        else:
-            solved_path = perfect_solver(maze, render)
-    except StopIteration as e:
-        print(f"Maze solved in {e.value} ops")
+    if not val_data.PERFECT:
+        solved_path = non_perfect_solver(maze, render, status_lines)
+    else:
+        solved_path = perfect_solver(maze, render, status_lines)
 
     if maze.exit in solved_path:
+        for status in status_lines:
+            print(status)
         return solved_path
     return []
 
 
-def non_perfect_solver(maze: Maze, render: AsciiMazeRender) -> list[tuple[int, int]]:
+def non_perfect_solver(
+    maze: Maze, render: AsciiMazeRender, status_lines: list[str]
+) -> list[tuple[int, int]]:
 
     # Solving non-Perfect
     solver = BFSsolver(maze)
@@ -43,19 +44,29 @@ def non_perfect_solver(maze: Maze, render: AsciiMazeRender) -> list[tuple[int, i
         sleep(1 / 60)
 
     render.enable_term_cursor()
-
+    status_lines.append(f"Maze solved in {len(solved_path) - 1} ops")
     return solved_path
 
 
-def perfect_solver(maze: Maze, render: AsciiMazeRender) -> list[tuple[int, int]]:
+def perfect_solver(
+    maze: Maze, render: AsciiMazeRender, status_lines: list[str]
+) -> list[tuple[int, int]]:
     # Solving Perfect
     solver = DeadEndSolver(maze)
     render.attach(solver.maze)
     render.disable_term_cursor()
 
     solver_iter = solver.fill_dead_end()
-    while solver_iter:
-        frame = render.frame(mode="default")
-        render.flush(frame)
-        sleep(1 / 60)
-    return SOLVER
+    try:
+        while solver_iter:
+            next(solver_iter)
+            frame = render.frame(mode="default")
+            render.flush(frame)
+            sleep(1 / 60)
+    except StopIteration as e:
+        status_lines.append(f"Maze solved in {e.value} ops")
+
+    pop_solution = solver.solve()  # Populate solver.solution
+    for x in pop_solution:
+        pass
+    return solver.solution

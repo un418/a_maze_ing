@@ -5,7 +5,7 @@ from maze_generator import Braider, Logo, Maze, MazeGenDFS
 from maze_render._ascii_render import AsciiMazeRender
 
 
-def maze_generation(val_data: ConfigData) -> tuple[Maze, AsciiMazeRender]:
+def maze_generation(val_data: ConfigData) -> tuple[Maze, AsciiMazeRender, list]:
     # Creates grid with every wall closed
     maze = Maze(val_data.WIDTH, val_data.HEIGHT, val_data.ENTRY, val_data.EXIT)
     # Object that holds perfect maze generation
@@ -19,15 +19,15 @@ def maze_generation(val_data: ConfigData) -> tuple[Maze, AsciiMazeRender]:
     # helper function to yield generator and draw it in terminal
     op_count: int = animate_generation(render, mazegen.gen())
     # modding perfect maze to generate non-Perfect
-    print(f"Maze generated in {op_count} ops")
     if not val_data.PERFECT:
         braider = Braider(mazegen.maze)
         braider.gen_braiding()
         render.flush(render.frame())
-    print(f"Maze generated in {op_count} ops")
+    status_lines: list[str] = [f"Maze generated in {op_count} ops"]
     if not val_data.PERFECT:
-        print("Added Braiding! non-Perfect maze created :)")
-    return mazegen.maze, render
+        status_lines.append("Added Braiding! non-Perfect maze created :)")
+    # Printing status_lines
+    return mazegen.maze, render, status_lines
 
 
 def animate_generation(render, maze_generator):
