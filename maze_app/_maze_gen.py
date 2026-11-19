@@ -26,7 +26,7 @@ def maze_generation(
     # Creates grid with every wall closed
     maze = Maze(val_data.WIDTH, val_data.HEIGHT, val_data.ENTRY, val_data.EXIT)
     # Object that holds perfect maze generation
-    mazegen = MazeGenDFS(maze)
+    mazegen = MazeGenDFS(maze, val_data.SEED)
     # Assigning logo cells
     logo_coordset = Logo(maze).gen_coordset()
     # Importing logo coordinates into the generation object
