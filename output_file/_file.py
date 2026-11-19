@@ -2,10 +2,8 @@
 
 from typing import IO
 
-from config_parser import ConfigData
 from core import Step
-from maze_generator import MazeGenDFS
-from maze_solver import DeadEndSolver
+from maze_generator import Maze
 
 
 class OutputFile:
@@ -17,9 +15,7 @@ class OutputFile:
         solver: Solver holding the route from entry to exit.
     """
 
-    def __init__(
-        self, mazegen: MazeGenDFS, val_data: ConfigData, solver: DeadEndSolver
-    ):
+    def __init__(self, maze: Maze, file_name: str, solution: list[tuple[int, int]]):
         """Store the maze, configuration, and solver used for output.
 
         Args:
@@ -28,9 +24,9 @@ class OutputFile:
             solver: Solver whose solution has already been populated.
         """
 
-        self.mazegen = mazegen
-        self.val_data = val_data
-        self.solver = solver
+        self.maze = maze
+        self.file_name = file_name
+        self.solution = solution
 
     def constructor(self) -> None:  # handle excpetions outside
         """Create the output file and write the maze, endpoints, and path.
@@ -46,8 +42,8 @@ class OutputFile:
         if not self._validate_solution():
             raise ValueError("Invalid solution list")
         else:
-            with open(f"{self.val_data.OUTPUT_FILE}", "w") as file:
-                self._maze_layout_writer(file, self.mazegen.maze.grid)
+            with open(f"{self.file_name}", "w") as file:
+                self._maze_layout_writer(file, self.maze.grid)
                 self._entry_exit_writer(file)
                 self._path_dir_writer(file)
 
@@ -60,14 +56,15 @@ class OutputFile:
         Returns:
             True if these checks pass, otherwise False.
         """
-        sol_list: list[tuple[int, int]] = self.solver.solution
-        if not len(sol_list):
+        if not len(self.solution):
             return False
-        if sol_list[0] != self.mazegen.maze.entry:
+        if self.solution[0] != self.maze.entry:
             return False
-        for i in range(len(sol_list) - 1):
-            curr: tuple[int, int] = sol_list[i]
-            foll: tuple[int, int] = sol_list[i + 1]
+        if self.solution[-1] != self.maze.exit:
+            return False
+        for i in range(len(self.solution) - 1):
+            curr: tuple[int, int] = self.solution[i]
+            foll: tuple[int, int] = self.solution[i + 1]
             if curr == foll:
                 return False
 
@@ -93,14 +90,14 @@ class OutputFile:
         Args:
             file: Open output file.
         """
-        file.write(f"{self.val_data.ENTRY}     #ENTRY (x, y)\n")
-        file.write(f"{self.val_data.EXIT}     #EXIT (x, y)\n")
+        file.write(f"{self.maze.entry}     #ENTRY (x, y)\n")
+        file.write(f"{self.maze.exit}     #EXIT (x, y)\n")
+        file.write("\n")
 
     def _path_dir_writer(self, file: IO) -> None:
         """Write the solution as a sequence of cardinal direction letters.
 
-        Convert consecutive coordinates to directions, then add the final
-        move to the exit, which the solver omits from its solution list.
+        Convert consecutive coordinates to directions
 
         Args:
             file: Open output file.
@@ -108,21 +105,14 @@ class OutputFile:
         Raises:
             ValueError: If a coordinate difference is not a cardinal step.
         """
-        sol_list: list[tuple[int, int]] = self.solver.solution
-        for i in range(len(sol_list) - 1):
-            curr: tuple[int, int] = sol_list[i]
-            foll: tuple[int, int] = sol_list[i + 1]
+        for i in range(len(self.solution) - 1):
+            curr: tuple[int, int] = self.solution[i]
+            foll: tuple[int, int] = self.solution[i + 1]
 
             delta: tuple[int, int] = (foll[0] - curr[0], foll[1] - curr[1])
             file.write(Step(delta).name)
 
-        last_step = sol_list[len(sol_list) - 1]
-        delta = (
-            self.mazegen.maze.exit[0] - last_step[0],
-            self.mazegen.maze.exit[1] - last_step[1],
-        )
-        file.write(Step(delta).name)
-        file.write("\n")
+        file.write("\n\n")
 
     @staticmethod
     def _clean_hex(wall: int) -> str:
