@@ -21,13 +21,13 @@ if __name__ == "__main__":
             sys.exit(42)
         # Generating a maze Block
         try:
-            maze, render = maze_generation(val_data)
+            maze, render, status_lines = maze_generation(val_data)
         except Exception as e:  # PLACEHOLDER
             print(f"Maze Generation Error: {e}", file=sys.stderr)
             sys.exit(42)
         # Solving the maze
         try:
-            solution = maze_solver(val_data, maze, render)
+            solution = maze_solver(val_data, maze, render, status_lines)
         except (Exception, NotSolvedError) as e:  # PLACEHOLDER
             print(f"Maze Solving Error: {e}", file=sys.stderr)
             sys.exit(42)
