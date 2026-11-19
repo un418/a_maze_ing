@@ -1,9 +1,10 @@
+from pydantic import ValidationError
 
-from ._parser import config_importer
+from ._parser import config_validator
 from ._validator import ConfigData
 
-
 __all__ = [
-    "config_importer",
-    "ConfigData"
+    "ConfigData",
+    "ValidationError",
+    "config_validator",
 ]
