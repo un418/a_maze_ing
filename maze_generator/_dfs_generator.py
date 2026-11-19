@@ -8,10 +8,10 @@ from collections import deque
 from random import choice
 from typing import Generator
 
-from ._maze import Maze
-from ._cell import Cell
-
 from core import Dir, OppDir, Step
+
+from ._cell import Cell
+from ._maze import Maze
 
 
 class MazeGenDFS:
@@ -89,16 +89,12 @@ class MazeGenDFS:
             Direction names ("N", "S", "W", "E") the DFS can move to.
         """
         ret: list[str] = []
-        if (y != 0 and
-                (x, y - 1) not in self.visited):
+        if y != 0 and (x, y - 1) not in self.visited:
             ret.append("N")
-        if (y != self.maze.y_max and
-                (x, y + 1) not in self.visited):
+        if y != self.maze.y_max and (x, y + 1) not in self.visited:
             ret.append("S")
-        if (x != 0 and
-                (x - 1, y) not in self.visited):
+        if x != 0 and (x - 1, y) not in self.visited:
             ret.append("W")
-        if (x != self.maze.x_max and
-                (x + 1, y) not in self.visited):
+        if x != self.maze.x_max and (x + 1, y) not in self.visited:
             ret.append("E")
         return ret

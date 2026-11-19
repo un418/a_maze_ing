@@ -16,13 +16,14 @@ class Cell:
         state: Mark left by the solver, None until it visits the cell.
     """
 
-    def __init__(self,
-                 x: int,
-                 y: int,
-                 border: bool = False,
-                 logo: bool = False,
-                 wall: int = 0b1111
-                 ) -> None:
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        border: bool = False,
+        logo: bool = False,
+        wall: int = 0b1111,
+    ) -> None:
         """Create a cell at (x, y), with all walls closed by default.
 
         Args:
