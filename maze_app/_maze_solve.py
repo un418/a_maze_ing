@@ -1,6 +1,6 @@
 from time import sleep
 
-from config_parser._validator import ConfigData
+from config_parser import ConfigData
 from core import CellState
 from maze_generator import Maze
 from maze_render import AsciiMazeRender
@@ -16,7 +16,10 @@ class NotSolvedError(Exception):
 
 
 def maze_solver(
-    val_data: ConfigData, maze: Maze, render: AsciiMazeRender, status_lines: list[str]
+    val_data: ConfigData,
+    maze: Maze,
+    render: AsciiMazeRender,
+    status_lines: list[str],
 ) -> list[tuple[int, int]]:
     """
     Select a solver and display the status messages when it succeeds.
@@ -112,6 +115,7 @@ def perfect_solver(
             sleep(1 / 60)
     except StopIteration as e:
         status_lines.append(f"Maze solved in {e.value} ops")
+    render.enable_term_cursor()
 
     pop_solution = solver.solve()  # Populate solver.solution
     for x in pop_solution:
