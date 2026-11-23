@@ -25,7 +25,7 @@ if __name__ == "__main__":
     try:
         # Importing configData Block
         try:
-            val_data: ConfigData = config_importer()
+            val_data: ConfigData = config_importer(sys.argv)
         except (ValueError, ValidationError, OSError, ImporterError) as e:
             print(f"Config error: {e}", file=sys.stderr)
             sys.exit(42)
