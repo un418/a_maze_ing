@@ -66,8 +66,10 @@ class OutputFile:
         Args:
             file: Open output file.
         """
-        file.write(f"{self.val_data.ENTRY}     #ENTRY (x, y)\n")
-        file.write(f"{self.val_data.EXIT}     #EXIT (x, y)\n")
+        entry_x, entry_y = self.val_data.ENTRY
+        exit_x, exit_y = self.val_data.EXIT
+        file.write(f"{entry_x},{entry_y}\n")
+        file.write(f"{exit_x},{exit_y}\n")
 
     def _path_dir_writer(self, file: IO) -> None:
         """Write the solution as a sequence of cardinal direction letters.

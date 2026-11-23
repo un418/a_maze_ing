@@ -17,7 +17,11 @@ class Maze:
     """
 
     def __init__(
-        self, width: int, height: int, entry: tuple[int, int], out: tuple[int, int]
+        self,
+        width: int,
+        height: int,
+        entry: tuple[int, int],
+        exit: tuple[int, int],
     ) -> None:
         """Build a `width` x `height` grid of fully closed cells.
 
@@ -28,7 +32,7 @@ class Maze:
         self.width = width
         self.height = height
         self.entry = entry
-        self.exit = out
+        self.exit = exit
         self.x_max = width - 1
         self.y_max = height - 1
         self.grid: list[list[Cell]] = [
