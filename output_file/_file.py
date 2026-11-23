@@ -7,21 +7,23 @@ from maze_generator import Maze
 
 
 class OutputFile:
-    """Serialize a maze, its endpoints, and its solution path.
+    """
+    Write a generated maze and its solution to a text file.
 
     Attributes:
-        mazegen: Generator holding the completed maze grid.
-        val_data: Validated configuration, including the output filename.
-        solver: Solver holding the route from entry to exit.
+        maze: Generated maze with its wall masks and endpoints.
+        file_name: Path to the output file.
+        solution: Ordered (x, y) coordinates, including entry and exit.
     """
 
     def __init__(self, maze: Maze, file_name: str, solution: list[tuple[int, int]]):
-        """Store the maze, configuration, and solver used for output.
+        """
+        Store the maze, output path, and solution for export.
 
         Args:
-            mazegen: Generator whose maze contains the final wall masks.
-            val_data: Validated configuration for the output file and endpoints.
-            solver: Solver whose solution has already been populated.
+            maze: Generated maze whose walls and endpoints will be written.
+            file_name: Path to the output file.
+            solution: Path from the maze entry to the exit, inclusive.
         """
 
         self.maze = maze
