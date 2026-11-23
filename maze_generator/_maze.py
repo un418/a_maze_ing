@@ -1,7 +1,5 @@
 """Maze grid container."""
 
-from os import stat_result
-
 from ._cell import Cell
 
 
@@ -13,6 +11,8 @@ class Maze:
         height: Number of rows.
         x_max: Index of the last column.
         y_max: Index of the last row.
+        entry: Entry coordinates
+        exit: Exit coordinates
         grid: Rows of fully closed cells.
     """
 
