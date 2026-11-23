@@ -43,11 +43,9 @@ def maze_solver(
     else:
         solved_path = perfect_solver(maze, render, status_lines)
 
-    if maze.exit in solved_path:
-        for status in status_lines:
-            print(status)
-        return solved_path
-    return []
+    for status in status_lines:
+        print(status)
+    return solved_path
 
 
 def non_perfect_solver(
