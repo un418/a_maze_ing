@@ -1,5 +1,3 @@
-import sys
-
 from config_parser import ConfigData, config_validator
 
 
