@@ -7,14 +7,6 @@ from maze_render import AsciiMazeRender
 from maze_solver import BFSsolver, DeadEndSolver
 
 
-class NotSolvedError(Exception):
-    """
-    Indicate that a solution could not be found for a maze.
-    """
-    def __str__(self) -> str:
-        return "Maze could not be solved!"
-
-
 def maze_solver(
     val_data: ConfigData,
     maze: Maze,
@@ -32,7 +24,6 @@ def maze_solver(
 
     Returns:
         A list of (x, y) coordinates from entry to exit, inclusive,
-        or an empty list if the returned path does not reach the exit.
 
     Raises:
         SolverError: If BFS cannot reach the exit.
