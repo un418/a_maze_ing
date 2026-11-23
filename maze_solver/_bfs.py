@@ -47,18 +47,22 @@ class BFSsolver:
             if (curr_cell.x, curr_cell.y) == exit:
                 break
             for step in Step:
-                if curr_cell.wall & Dir[step.name]:  # skip directions with walls
+                if curr_cell.wall & Dir[step.name]:  # skip dir with walls
                     continue
                 x_offset, y_offset = step.value
                 neighbour_x, neighbour_y = x + x_offset, y + y_offset
                 neighbour_cell = grid[neighbour_y][neighbour_x]
-                if not self._is_valid_cell(neighbour_cell) or self._was_seen(
-                    neighbour_cell, seen
+                if (
+                    not self._is_valid_cell(neighbour_cell)
+                    or self._was_seen(neighbour_cell, seen)
                 ):
                     continue
 
                 queue.append((neighbour_x, neighbour_y))
-                came_from[neighbour_x, neighbour_y] = (curr_cell.x, curr_cell.y)
+                came_from[neighbour_x, neighbour_y] = (
+                    curr_cell.x,
+                    curr_cell.y,
+                )
 
         if exit not in seen:  # Exit wasn't found
             raise SolverError
