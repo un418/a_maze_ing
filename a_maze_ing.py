@@ -1,3 +1,13 @@
+"""
+Generate, display, solve, and export a maze.
+
+Usage:
+    python3 a_maze_ing.py config.txt
+
+The configuration selects perfect or non-perfect mode and specifies
+the output file for the maze and its solution.
+"""
+
 import sys
 
 from maze_app import (
