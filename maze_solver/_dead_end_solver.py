@@ -7,8 +7,8 @@ Classes:
 from copy import deepcopy
 from typing import Generator
 
-from maze_generator import Maze, Cell
-from core import Dir, OppDir, Step, CellState
+from core import CellState, Dir, OppDir, Step
+from maze_generator import Cell, Maze
 
 
 class DeadEndSolver:
@@ -33,8 +33,8 @@ class DeadEndSolver:
         """
         self.origin = maze
         self.maze = deepcopy(maze)
-        self.start = (0, 0)
-        self.end = (self.maze.x_max, self.maze.y_max)  # TODO change later
+        self.start = maze.entry
+        self.end = maze.exit
         self.visited: set[tuple[int, int]] = set()
         self.solution: list[tuple[int, int]] = []
 
@@ -45,11 +45,12 @@ class DeadEndSolver:
             (x, y) coordinates of every current dead end.
         """
         keep_out = {self.start, self.end}
-        return [(cell.x, cell.y)
-                for row in self.maze.grid
-                for cell in row
-                if cell.wall.bit_count() == 3
-                and (cell.x, cell.y) not in keep_out]
+        return [
+            (cell.x, cell.y)
+            for row in self.maze.grid
+            for cell in row
+            if cell.wall.bit_count() == 3 and (cell.x, cell.y) not in keep_out
+        ]
 
     def opening(self, cell: Cell) -> str:
         """The single direction a dead end is still open on.
@@ -95,8 +96,7 @@ class DeadEndSolver:
         cell.wall |= Dir[step].value
         cell.state = CellState.SOLVER_VISITED
         yield cell
-        if (0 <= nx <= self.maze.x_max and
-                0 <= ny <= self.maze.y_max):
+        if 0 <= nx <= self.maze.x_max and 0 <= ny <= self.maze.y_max:
             self.maze.grid[ny][nx].wall |= Dir[OppDir[step].value].value
         return 1
 
@@ -153,24 +153,16 @@ class DeadEndSolver:
         ret = ""
         counter = 0
         wall = self.maze.grid[y][x].wall
-        if (y != 0 and
-                (x, y - 1) not in self.visited and
-                not wall & Dir.N):
+        if y != 0 and (x, y - 1) not in self.visited and not wall & Dir.N:
             ret = "N"
             counter += 1
-        if (y != self.maze.y_max and
-                (x, y + 1) not in self.visited and
-                not wall & Dir.S):
+        if y != self.maze.y_max and (x, y + 1) not in self.visited and not wall & Dir.S:
             ret = "S"
             counter += 1
-        if (x != 0 and
-                (x - 1, y) not in self.visited and
-                not wall & Dir.W):
+        if x != 0 and (x - 1, y) not in self.visited and not wall & Dir.W:
             ret = "W"
             counter += 1
-        if (x != self.maze.x_max and
-                (x + 1, y) not in self.visited and
-                not wall & Dir.E):
+        if x != self.maze.x_max and (x + 1, y) not in self.visited and not wall & Dir.E:
             ret = "E"
             counter += 1
         if counter > 1:
