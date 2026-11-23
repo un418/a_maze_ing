@@ -42,7 +42,8 @@ class Logo:
             MazeLogoError: If the grid is too small for the logo.
         """
         if self.maze.width < 8 or self.maze.height < 8:
-            raise MazeLogoError("Maze grid is too little to print logo (min=8x8)")
+            raise MazeLogoError(
+                "Maze grid is too little to print logo (min=8x8)")
         logo_coords: list[tuple[int, int]] = []
         scale_factor = 0  # TODO (Bonus) Scaling
         # scale factor = ..... (depends on width and height)
