@@ -51,6 +51,10 @@ class BFSsolver:
                     continue
                 x_offset, y_offset = step.value
                 neighbour_x, neighbour_y = x + x_offset, y + y_offset
+                
+                if not (0 <= neighbour_x < self.maze.widthand 
+                        and 0 <= neighbour_y < self.maze.height):
+                    continue # skip out of bounds lookup
                 neighbour_cell = grid[neighbour_y][neighbour_x]
                 if (
                     not self._is_valid_cell(neighbour_cell)
