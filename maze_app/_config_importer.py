@@ -27,5 +27,5 @@ def config_importer(cl_arguments: list[str]) -> ConfigData:
     """
     if len(cl_arguments) != 2:
         raise ImporterError
-    val_data: ConfigData = config_validator(sys.argv[1])
+    val_data: ConfigData = config_validator(cl_arguments[1])
     return val_data
