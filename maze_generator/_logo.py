@@ -5,6 +5,7 @@ from ._maze import Maze
 
 class MazeLogoError(Exception):
     """Raised if the maze grid is too small to draw the logo."""
+
     def __init__(self, message: str = "Unknown Maze Logo error") -> None:
         """Create the error.
 
@@ -40,9 +41,9 @@ class Logo:
         Raises:
             MazeLogoError: If the grid is too small for the logo.
         """
-        if self.maze.width <= 8 or self.maze.width <= 8:
+        if self.maze.width < 8 or self.maze.height < 8:
             raise MazeLogoError(
-                'Maze grid is too little to print logo (min=8x8)')
+                "Maze grid is too little to print logo (min=8x8)")
         logo_coords: list[tuple[int, int]] = []
         scale_factor = 0  # TODO (Bonus) Scaling
         # scale factor = ..... (depends on width and height)
@@ -54,10 +55,10 @@ class Logo:
         for _ in range(size - 1):
             y += 1
             logo_coords.append((x, y))
-        for _ in range(size-1):
+        for _ in range(size - 1):
             x += 1
             logo_coords.append((x, y))
-        for _ in range(size-1):
+        for _ in range(size - 1):
             y += 1
             logo_coords.append((x, y))
         # 2 - from top to bottom
@@ -66,16 +67,20 @@ class Logo:
         for _ in range(size - 1):
             x += 1
             logo_coords.append((x, y))
-        for _ in range(size-1):
+        for _ in range(size - 1):
             y += 1
             logo_coords.append((x, y))
-        for _ in range(size-1):
+        for _ in range(size - 1):
             x -= 1
             logo_coords.append((x, y))
-        for _ in range(size-1):
+        for _ in range(size - 1):
             y += 1
             logo_coords.append((x, y))
-        for _ in range(size-1):
+        for _ in range(size - 1):
             x += 1
             logo_coords.append((x, y))
+
+        for x, y in logo_coords:
+            self.maze.grid[y][x].logo = True  # Adds logo id to logo cells
+
         return set(logo_coords)
