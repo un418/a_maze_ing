@@ -17,6 +17,6 @@ __all__ = [
     "Maze",
     "maze_generation",
     "maze_solver",
-    "NotSolvedError",
+    "SolverError",
     "OutputFile",
 ]
