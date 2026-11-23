@@ -1,3 +1,5 @@
+# Re-exports everything a_maze_ing.py needs, including names from
+# other packages, so the main program only imports from maze_app.
 from pydantic import ValidationError
 
 from output_file import OutputFile

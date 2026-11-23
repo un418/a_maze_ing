@@ -2,10 +2,12 @@ from time import sleep
 
 from config_parser import ConfigData
 from maze_generator import Braider, Logo, Maze, MazeGenDFS
-from maze_render._ascii_render import AsciiMazeRender
+from maze_render import AsciiMazeRender
 
 
-def maze_generation(val_data: ConfigData) -> tuple[Maze, AsciiMazeRender, list]:
+def maze_generation(
+    val_data: ConfigData,
+) -> tuple[Maze, AsciiMazeRender, list]:
     """Build and animate a maze using the configured generation mode.
 
     Reserve the 42 logo cells before carving with DFS. Braid the maze

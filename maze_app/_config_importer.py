@@ -8,9 +8,9 @@ class ImporterError(Exception):
     Indicate that the command expects exactly one config file argument.
     """
     def __str__(self) -> str:
-         """
-         Return the usage message for an incorrect argument count.
-         """
+        """
+        Return the usage message for an incorrect argument count.
+        """
         return "Missing configuration file. \
 Usage: poetry run python3 <PROGRAM.py> <config.txt>"
 
