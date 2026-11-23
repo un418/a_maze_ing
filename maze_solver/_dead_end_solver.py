@@ -135,6 +135,9 @@ class DeadEndSolver:
             x, y = nx, ny
             yield self.maze.grid[y][x]
             if (x, y) == self.end:
+                self.solution.append(
+                    (x, y)
+                )  # small fix so the solution contains the exit
                 return
 
     def walk(self, x: int, y: int) -> str:

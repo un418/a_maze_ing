@@ -31,7 +31,7 @@ class BFSsolver:
         from, then use those records to reconstruct the path.
 
         Returns:
-            Path as (x, y) coordinates, including the entry and exit, or an
+            Path as (x, y) coordinates, including the entry and exit
         Raises:
             SolverError if the exit is unreachable.
         """
@@ -52,7 +52,7 @@ class BFSsolver:
                 x_offset, y_offset = step.value
                 neighbour_x, neighbour_y = x + x_offset, y + y_offset
                 
-                if not (0 <= neighbour_x < self.maze.widthand 
+                if not (0 <= neighbour_x < self.maze.width
                         and 0 <= neighbour_y < self.maze.height):
                     continue # skip out of bounds lookup
                 neighbour_cell = grid[neighbour_y][neighbour_x]

@@ -1,0 +1,51 @@
+"""
+Generate, display, solve, and export a maze.
+
+Usage:
+    python3 a_maze_ing.py config.txt
+
+The configuration selects perfect or non-perfect mode and specifies
+the output file for the maze and its solution.
+"""
+
+import sys
+
+from maze_app import (
+    ConfigData,
+    ImporterError,
+    SolverError,
+    OutputFile,
+    ValidationError,
+    config_importer,
+    maze_generation,
+    maze_solver,
+)
+
+if __name__ == "__main__":
+    try:
+        # Importing configData Block
+        try:
+            val_data: ConfigData = config_importer(sys.argv)
+        except (ValueError, ValidationError, OSError, ImporterError) as e:
+            print(f"Config error: {e}", file=sys.stderr)
+            sys.exit(42)
+        # Generating a maze Block
+        try:
+            maze, render, status_lines = maze_generation(val_data)
+        except Exception as e:  # PLACEHOLDER
+            print(f"Maze Generation Error: {e}", file=sys.stderr)
+            sys.exit(42)
+        # Solving the maze
+        try:
+            solution = maze_solver(val_data, maze, render, status_lines)
+        except (Exception, SolverError) as e:  # PLACEHOLDER
+            print(f"Maze Solving Error: {e}", file=sys.stderr)
+            sys.exit(42)
+        # Output file Generation
+        try:
+            OutputFile(maze, val_data.OUTPUT_FILE, solution).constructor()
+        except (ValueError, OSError) as e:
+            print(f"Output file generation error: {e}", file=sys.stderr)
+            sys.exit(42)
+    except (KeyboardInterrupt, EOFError):
+        print("\n Program interrupted by user...")
