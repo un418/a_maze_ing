@@ -3,6 +3,11 @@
 from core import Dir, Step
 from maze_generator import Cell, Maze
 
+class SolverError(Exception):
+
+    def __str__(self):
+        return "Solver couldn't solve the maze"
+
 
 class BFSsolver:
     """Solve a maze by exploring cells in order of distance from the entry.
@@ -27,7 +32,8 @@ class BFSsolver:
 
         Returns:
             Path as (x, y) coordinates, including the entry and exit, or an
-            empty list if the exit is unreachable.
+        Raises:
+            SolverError if the exit is unreachable.
         """
         queue: list[tuple[int, int]] = [self.maze.entry]
         seen: set[tuple[int, int]] = {self.maze.entry}
@@ -55,7 +61,7 @@ class BFSsolver:
                 came_from[neighbour_x, neighbour_y] = (curr_cell.x, curr_cell.y)
 
         if exit not in seen:  # Exit wasn't found
-            return []
+            raise SolverError
 
         current = self.maze.exit
         path: list[tuple[int, int]] = [current]
