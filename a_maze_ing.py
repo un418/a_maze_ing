@@ -44,7 +44,8 @@ if __name__ == "__main__":
         # Output file Generation
         try:
             OutputFile(maze, val_data.OUTPUT_FILE, solution).constructor()
-        except ValueError as e:
+        except (ValueError, OSError) as e:
             print(f"Output file generation error: {e}", file=sys.stderr)
+            sys.exit(42)
     except (KeyboardInterrupt, EOFError):
         print("\n Program interrupted by user...")

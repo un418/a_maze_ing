@@ -16,7 +16,9 @@ class OutputFile:
         solution: Ordered (x, y) coordinates, including entry and exit.
     """
 
-    def __init__(self, maze: Maze, file_name: str, solution: list[tuple[int, int]]):
+    def __init__(
+        self, maze: Maze, file_name: str, solution: list[tuple[int, int]]
+    ):
         """
         Store the maze, output path, and solution for export.
 
