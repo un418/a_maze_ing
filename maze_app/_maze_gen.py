@@ -1,7 +1,8 @@
 from time import sleep
+from typing import Generator
 
 from config_parser import ConfigData
-from maze_generator import Braider, Logo, Maze, MazeGenDFS
+from maze_generator import Braider, Logo, Maze, Cell, MazeGenDFS
 from maze_render import AsciiMazeRender
 
 
@@ -46,7 +47,10 @@ def maze_generation(
     return mazegen.maze, render, status_lines
 
 
-def animate_generation(render, maze_generator):
+def animate_generation(
+    render: AsciiMazeRender,
+    maze_generator: Generator[Cell, None, int],
+) -> int:
     """Draw each step of DFS maze generation in the terminal.
 
     Args:
