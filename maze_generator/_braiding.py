@@ -74,9 +74,6 @@ class Braider:
 
         Returns:
             True if the opening was kept, or False if it was rejected.
-
-        Raises:
-            IndexError: If the neighbour lookup goes beyond the grid.
         """
         offset_x, offset_y = Step[side.name].value
         neighbor_y = curr_cell.y + offset_y
