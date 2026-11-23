@@ -35,43 +35,16 @@ class OutputFile:
     def constructor(self) -> None:  # handle excpetions outside
         """Create the output file and write the maze, endpoints, and path.
 
-        Check the recorded solution before opening the file. An existing output
-        file is overwritten.
-
+        An existing output file is overwritten.
+ 
         Raises:
             OSError: If the output file cannot be created or written.
-            ValueError: If the solution fails validation or a path step does
-                not match a cardinal direction.
+            ValueError: If a path step does not match a cardinal direction.
         """
-        if not self._validate_solution():
-            raise ValueError("Invalid solution list")
-
         with open(f"{self.val_data.OUTPUT_FILE}", "w") as file:
             self._maze_layout_writer(file, self.mazegen.maze.grid)
             self._entry_exit_writer(file)
             self._path_dir_writer(file)
-
-    def _validate_solution(self) -> bool:
-        """Check the basic requirements of the recorded solution.
-
-        The list must be nonempty, begin at the maze entry, and have no
-        consecutive duplicate coordinates.
-
-        Returns:
-            True if these checks pass, otherwise False.
-        """
-        sol_list: list[tuple[int, int]] = self.solver.solution
-        if not len(sol_list):
-            return False
-        if sol_list[0] != self.mazegen.maze.entry:
-            return False
-        for i in range(len(sol_list) - 1):
-            curr: tuple[int, int] = sol_list[i]
-            foll: tuple[int, int] = sol_list[i + 1]
-            if curr == foll:
-                return False
-
-        return True
 
     def _maze_layout_writer(self, file: IO, grid: list[list]) -> None:
         """Write each row of cell wall masks as hexadecimal digits.
