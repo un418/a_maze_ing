@@ -8,7 +8,7 @@ from maze_render import AsciiMazeRender
 
 def maze_generation(
     val_data: ConfigData,
-) -> tuple[Maze, AsciiMazeRender, list]:
+) -> tuple[Maze, AsciiMazeRender, list[str]]:
     """Build and animate a maze using the configured generation mode.
 
     Reserve the 42 logo cells before carving with DFS. Braid the maze
