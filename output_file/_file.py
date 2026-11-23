@@ -45,11 +45,11 @@ class OutputFile:
         """
         if not self._validate_solution():
             raise ValueError("Invalid solution list")
-        else:
-            with open(f"{self.val_data.OUTPUT_FILE}", "w") as file:
-                self._maze_layout_writer(file, self.mazegen.maze.grid)
-                self._entry_exit_writer(file)
-                self._path_dir_writer(file)
+
+        with open(f"{self.val_data.OUTPUT_FILE}", "w") as file:
+            self._maze_layout_writer(file, self.mazegen.maze.grid)
+            self._entry_exit_writer(file)
+            self._path_dir_writer(file)
 
     def _validate_solution(self) -> bool:
         """Check the basic requirements of the recorded solution.
