@@ -15,7 +15,7 @@ class ImporterError(Exception):
 Usage: poetry run python3 <PROGRAM.py> <config.txt>"
 
 
-def config_importer() -> ConfigData:
+def config_importer(cl_arguments: list[str]) -> ConfigData:
     """Load and validate the config file passed on the command line.
 
     Returns:
@@ -27,7 +27,7 @@ def config_importer() -> ConfigData:
         ValueError: If the file contains malformed or duplicate entries.
         ValidationError: If the config values fail validation.
     """
-    if len(sys.argv) != 2:
+    if len(cl_arguments) != 2:
         raise ImporterError
     val_data: ConfigData = config_validator(sys.argv[1])
     return val_data
