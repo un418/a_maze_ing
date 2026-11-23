@@ -13,7 +13,7 @@ import sys
 from maze_app import (
     ConfigData,
     ImporterError,
-    NotSolvedError,
+    SolverError,
     OutputFile,
     ValidationError,
     config_importer,
@@ -38,7 +38,7 @@ if __name__ == "__main__":
         # Solving the maze
         try:
             solution = maze_solver(val_data, maze, render, status_lines)
-        except (Exception, NotSolvedError) as e:  # PLACEHOLDER
+        except (Exception, SolverError) as e:  # PLACEHOLDER
             print(f"Maze Solving Error: {e}", file=sys.stderr)
             sys.exit(42)
         # Output file Generation
