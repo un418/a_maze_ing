@@ -6,6 +6,20 @@ from maze_render._ascii_render import AsciiMazeRender
 
 
 def maze_generation(val_data: ConfigData) -> tuple[Maze, AsciiMazeRender, list]:
+    """Build and animate a maze using the configured generation mode.
+
+    Reserve the 42 logo cells before carving with DFS. Braid the maze
+    after carving if the configuration selects non-perfect mode.
+
+    Args:
+        val_data: Validated settings for the maze and its generation mode.
+
+    Returns:
+        The generated maze, its renderer, and a list of status messages.
+
+    Raises:
+        MazeLogoError: If the maze is too small for the 42 logo.
+    """
     # Creates grid with every wall closed
     maze = Maze(val_data.WIDTH, val_data.HEIGHT, val_data.ENTRY, val_data.EXIT)
     # Object that holds perfect maze generation
@@ -31,6 +45,16 @@ def maze_generation(val_data: ConfigData) -> tuple[Maze, AsciiMazeRender, list]:
 
 
 def animate_generation(render, maze_generator):
+    """Draw each step of DFS maze generation in the terminal.
+
+    Args:
+        render: Renderer attached to the maze being carved.
+        maze_generator: Iterator that yields the current cell and returns
+            the operation count when carving finishes.
+
+    Returns:
+        The number of DFS operations, including moves and backtracks.
+    """
     while True:
         try:
             cursor = next(maze_generator)
