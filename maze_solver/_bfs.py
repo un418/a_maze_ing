@@ -31,7 +31,7 @@ class BFSsolver:
         from, then use those records to reconstruct the path.
 
         Returns:
-            Path as (x, y) coordinates, including the entry and exit, or an
+            Path as (x, y) coordinates, including the entry and exit
         Raises:
             SolverError if the exit is unreachable.
         """
