@@ -5,7 +5,7 @@ Classes:
 """
 
 from collections import deque
-from random import choice
+from random import Random
 from typing import Generator
 
 from core import Dir, OppDir, Step
@@ -21,16 +21,19 @@ class MazeGenDFS:
         maze: Maze whose walls get carved in place.
         start: (x, y) the carving starts from.
         visited: Coordinates already carved or reserved (e.g. the logo).
+        rng: Random generator behind every DFS choice, built from the seed.
     """
 
-    def __init__(self, maze: Maze) -> None:
+    def __init__(self, maze: Maze, seed: int | None = None) -> None:
         """Prepare a generator that carves `maze` from the top-left cell.
 
         Args:
             maze: Maze whose walls get carved in place.
+            seed: Same seed gives the same maze; None picks a new one each run.
         """
         self.maze = maze
         self.start = (0, 0)
+        self.rng = Random(seed)
         self.visited: set[tuple[int, int]] = set()
 
     def import_logoset(self, logoset: set[tuple[int, int]]) -> None:
@@ -68,7 +71,7 @@ class MazeGenDFS:
                     x, y = stack[0]
                 yield self.maze.grid[y][x]
                 continue
-            next_step = choice(possible_step)
+            next_step = self.rng.choice(possible_step)
             dx, dy = Step[next_step].value
             nx, ny = x + dx, y + dy
             stack.appendleft((nx, ny))

@@ -19,7 +19,7 @@ class ConfigData(BaseModel):
     EXIT: tuple[int, int]
     OUTPUT_FILE: str = Field(min_length=5, max_length=50)
     PERFECT: bool
-    SEED: int = 0
+    SEED: int | None = None
 
     @field_validator("ENTRY", "EXIT", mode='before')
     @classmethod
