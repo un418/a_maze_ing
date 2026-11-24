@@ -5,5 +5,4 @@ __pycache__
 .vscode
 dist/
 *.whl
-maze.txt
-tests/*-maze.txt
+*maze.txt
