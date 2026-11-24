@@ -29,6 +29,7 @@ class MazeGenDFS:
 
         Args:
             maze: Maze whose walls get carved in place.
+            seed: Same seed gives the same maze; None picks a new one each run.
         """
         self.maze = maze
         self.start = (0, 0)
