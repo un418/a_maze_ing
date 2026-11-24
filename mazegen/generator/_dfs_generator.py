@@ -8,7 +8,7 @@ from collections import deque
 from random import Random
 from typing import Generator
 
-from core import Dir, OppDir, Step
+from mazegen.core import Dir, OppDir, Step
 
 from ._cell import Cell
 from ._maze import Maze

@@ -1,7 +1,8 @@
 """Find shortest paths through mazes using breadth-first search."""
 
-from core import Dir, Step
-from maze_generator import Cell, Maze
+from mazegen.core import Dir, Step
+from mazegen.generator import Cell, Maze
+
 
 class SolverError(Exception):
 

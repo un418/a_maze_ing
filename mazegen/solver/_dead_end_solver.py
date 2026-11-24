@@ -7,8 +7,8 @@ Classes:
 from copy import deepcopy
 from typing import Generator
 
-from core import CellState, Dir, OppDir, Step
-from maze_generator import Cell, Maze
+from mazegen.core import CellState, Dir, OppDir, Step
+from mazegen.generator import Cell, Maze
 
 
 class DeadEndSolver:

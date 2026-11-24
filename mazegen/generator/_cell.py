@@ -1,6 +1,6 @@
 """Single cell of the maze grid."""
 
-from core import CellState
+from mazegen.core import CellState
 
 
 class Cell:

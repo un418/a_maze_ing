@@ -2,10 +2,10 @@ import sys
 from time import sleep
 
 from config_parser import ConfigData, ValidationError, config_validator
-from core import CellState
-from maze_generator import Braider, Logo, Maze, MazeGenDFS
+from mazegen.core import CellState
+from mazegen.generator import Braider, Logo, Maze, MazeGenDFS
 from maze_render import AsciiMazeRender
-from maze_solver import BFSsolver, DeadEndSolver
+from mazegen.solver import BFSsolver, DeadEndSolver
 from output_file import OutputFile
 
 if __name__ == "__main__":

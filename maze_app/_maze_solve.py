@@ -1,10 +1,10 @@
 from time import sleep
 
 from config_parser import ConfigData
-from core import CellState
-from maze_generator import Maze
+from mazegen.core import CellState
+from mazegen.generator import Maze
 from maze_render import AsciiMazeRender
-from maze_solver import BFSsolver, DeadEndSolver
+from mazegen.solver import BFSsolver, DeadEndSolver
 
 
 def maze_solver(

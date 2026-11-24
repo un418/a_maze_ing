@@ -2,8 +2,8 @@
 
 from typing import IO
 
-from core import Step
-from maze_generator import Maze
+from mazegen.core import Step
+from mazegen.generator import Maze
 
 
 class OutputFile:

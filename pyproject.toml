@@ -19,6 +19,5 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 packages = [
-    { include = "core"},
-    { include = "maze_generator"}
+    { include = "mazegen"},
 ]

@@ -8,8 +8,8 @@ from collections.abc import Callable
 from typing import Literal
 import os
 
-from core import Dir, CellState
-from maze_generator import Maze, Cell
+from mazegen.core import Dir, CellState
+from mazegen.generator import Maze, Cell
 
 RenderMode = Literal["default", "bits", "hex"]
 
