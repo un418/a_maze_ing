@@ -182,5 +182,6 @@ Claude (Anthropic) was used during this project for:
 - **Project management**: tidying the GitHub Projects board (formatting the issues, filling in labels, assignees and status). Only the tedious part: it never suggested solutions or design approaches, which stay ours.
 - **Docstrings**: drafting the Google-style docstrings of `core`, `maze_generator`, `maze_render` and `maze_solver`, following the convention we set in [#3](https://github.com/un418/a_maze_ing/issues/3).
 - **This README**: structure and English.
+- **Code diagrams**: drawn with the Excalidraw MCP in [docs/diagram/](docs/diagram/), and kept up to date with [this prompt](docs/diagram/UPDATE_PROMPT.md).
 
 AI-assisted or not, every change goes through a PR reviewed by the other teammate.
