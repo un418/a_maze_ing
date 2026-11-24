@@ -33,7 +33,7 @@ class MazeGenDFS:
         """
         self.maze = maze
         self.start = (0, 0)
-        self.seedy = Random(seed)
+        self.rng = Random(seed)
         self.visited: set[tuple[int, int]] = set()
 
     def import_logoset(self, logoset: set[tuple[int, int]]) -> None:
