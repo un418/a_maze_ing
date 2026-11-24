@@ -21,6 +21,7 @@ class MazeGenDFS:
         maze: Maze whose walls get carved in place.
         start: (x, y) the carving starts from.
         visited: Coordinates already carved or reserved (e.g. the logo).
+        rng: Random generator behind every DFS choice, built from the seed.
     """
 
     def __init__(self, maze: Maze, seed=None) -> None:
