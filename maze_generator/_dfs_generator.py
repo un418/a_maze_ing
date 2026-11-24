@@ -24,7 +24,7 @@ class MazeGenDFS:
         rng: Random generator behind every DFS choice, built from the seed.
     """
 
-    def __init__(self, maze: Maze, seed=None) -> None:
+    def __init__(self, maze: Maze, seed: int | None = None) -> None:
         """Prepare a generator that carves `maze` from the top-left cell.
 
         Args:
