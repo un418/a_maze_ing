@@ -71,9 +71,7 @@ class MazeGenDFS:
                     x, y = stack[0]
                 yield self.maze.grid[y][x]
                 continue
-            next_step = self.seedy.choice(
-                possible_step
-            )  # now can use seed.If seed=None Random(None) is random
+            next_step = self.rng.choice(possible_step)
             dx, dy = Step[next_step].value
             nx, ny = x + dx, y + dy
             stack.appendleft((nx, ny))
