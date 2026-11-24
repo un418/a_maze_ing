@@ -12,10 +12,10 @@ OUTPUT      = $(shell sed -n 's/^OUTPUT_FILE=//p' $(CONFIG))
 install:
 	poetry install
 
-run:
+run: install
 	$(PYTHON) $(MAIN) $(CONFIG)
 
-debug:
+debug: install
 	$(PYTHON) -m pdb $(MAIN) $(CONFIG)
 
 # Runs + analyzes each test config
