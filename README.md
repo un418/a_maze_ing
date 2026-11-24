@@ -41,6 +41,35 @@ The generation part is meant to be reused: it ships as a standalone pip package,
 
 ## Instructions
 
+**Requirements**: Python 3.10+ and [Poetry](https://python-poetry.org/).
+
+```bash
+pipx install poetry   # install Poetry, if not already installed
+```
+
+```bash
+make install    # install the dependencies in a virtual env
+make run        # generate a maze from config.txt
+```
+
+Or with another config file:
+
+```bash
+make run CONFIG=<config_file>
+```
+
+Other rules:
+
+```bash
+make debug         # run the program under pdb
+make test          # generate the mazes of tests/ and analyze them
+make lint          # check the code with flake8 and mypy
+make lint-strict   # same, with mypy --strict
+make build         # build the mazegen wheel at the repo root
+make clean         # remove the caches and generated mazes
+make fclean        # clean, plus the built wheel
+```
+
 ## Config file
 
 One `KEY=VALUE` pair per line. Lines starting with `#` are comments.
