@@ -7,7 +7,7 @@ ENTRY=0,0
 EXIT=19,14
 
 # Output and generation mode
-OUTPUT_FILE=test_m=aze.txt
+OUTPUT_FILE=tests/imperfect-maze.txt
 PERFECT=False
 
 # Optional seed for reproducibility
