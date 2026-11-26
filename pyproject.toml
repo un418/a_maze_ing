@@ -21,3 +21,12 @@ build-backend = "poetry.core.masonry.api"
 packages = [
     { include = "mazegen"},
 ]
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.2.0,<10.0.0)"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
