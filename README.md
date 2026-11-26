@@ -62,7 +62,8 @@ Other rules:
 
 ```bash
 make debug         # run the program under pdb
-make test          # generate the mazes of tests/ and analyze them
+make test          # run our pytest tests
+make analyzer      # run the program, then analyze its maze (CONFIG=<file>)
 make lint          # check the code with flake8 and mypy
 make lint-strict   # same, with mypy --strict
 make build         # build the mazegen wheel at the repo root
