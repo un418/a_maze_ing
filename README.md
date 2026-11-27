@@ -67,6 +67,7 @@ make lint-strict   # same, with mypy --strict
 make build         # build the mazegen wheel at the repo root
 make clean         # remove the caches and generated mazes
 make fclean        # clean, plus the built wheel
+make vclean        # remove the Poetry virtual envs of this project
 ```
 
 ## Config file

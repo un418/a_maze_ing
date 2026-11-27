@@ -1,4 +1,4 @@
-.PHONY: install run debug build clean fclean lint lint-strict lint-flake8 lint-mypy lint-mypy-strict test analyzer
+.PHONY: install run debug build clean fclean vclean lint lint-strict lint-flake8 lint-mypy lint-mypy-strict test analyzer
 
 PYTHON      := poetry run python3
 MAIN        := a_maze_ing.py
@@ -64,3 +64,8 @@ clean:
 fclean: clean
 	@echo "### Build artifacts ###"
 	@rm -fv $(PACKAGE)-*
+
+# Removes the Poetry virtual envs of this project only
+vclean:
+	@echo "### Virtual envs ###"
+	poetry env remove --all
