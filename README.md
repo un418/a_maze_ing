@@ -14,9 +14,7 @@ _This project has been created as part of the 42 curriculum by adaferna, apinho-
   - [Algorithm](#algorithm-1)
   - [Why this algorithm](#why-this-algorithm-1)
 - [Reusable module](#reusable-module)
-  - [Basic usage](#basic-usage)
-  - [Custom parameters](#custom-parameters)
-  - [Maze structure and solution](#maze-structure-and-solution)
+  - [Usage](#usage)
 - [Team and project management](#team-and-project-management)
   - [Roles](#roles)
   - [Planning](#planning)
@@ -35,7 +33,7 @@ Two kinds of maze, picked with the `PERFECT` key:
 - **Perfect** (`PERFECT=True`): exactly one path between the entry and the exit, no loop at all.
 - **Pac-Man board** (`PERFECT=False`): every corridor is reachable, with loops and almost no dead-end.
 
-Each maze shows a **"42"** in the middle, made of fully closed cells (when the maze is big enough).
+Each maze shows a **"42"** logo in the middle, made of fully closed cells (when the maze is big enough).
 
 The generation part is meant to be reused: it ships as a standalone pip package, `mazegen`.
 
@@ -111,7 +109,7 @@ SEED=42
 3. If there is no unvisited neighbour left, go back to the previous cell.
 4. Stop when the stack is empty: every cell has been visited.
 
-The cells of the "42" are marked as visited before starting, so the DFS never opens them and they stay fully closed.
+The cells of the "42" logo are marked as visited before starting, so the DFS never opens them and they stay fully closed.
 
 ### Why this algorithm
 
@@ -135,11 +133,34 @@ Mostly because it looks cool. In the animation, every dead-end corridor shrinks 
 
 ## Reusable module
 
-### Basic usage
+- **What**: the `mazegen` package, with the maze generation and solving. It's used through one class, `MazeGenerator`.
+- **Not included**: config parsing, output file and display stay in the application.
+- **How**: build the wheel with `make build`, then install and use it as below.
 
-### Custom parameters
+### Usage
 
-### Maze structure and solution
+```bash
+pip install mazegen-0.1.0-py3-none-any.whl
+```
+
+```python
+from mazegen import MazeGenerator
+
+maze = MazeGenerator(
+    width=20,      # in cells, at least 8
+    height=15,     # in cells, at least 8
+    entry=(0, 0),  # (x, y), (0, 0) is top-left
+    exit=(19, 14),
+    perfect=True,  # False: adds loops
+    seed=42,       # optional, reproducible maze
+)
+
+print(maze.grid[0][0].wall)  # grid[y][x]
+print(maze.solution)  # shortest path of (x, y)
+```
+
+- **Walls**: `cell.wall` is the sum of the closed walls: North 1, East 2, South 4, West 8 (`3` = north and east).
+- **Logo**: `cell.logo` is `True` for the fully closed cells of the "42" logo.
 
 ## Team and project management
 
@@ -181,7 +202,7 @@ Each of us owns some parts, but we stay up to date on each other's:
 Claude (Anthropic) was used during this project for:
 - **Clarifying concepts**: graphs and spanning trees, maze algorithms, bitmasks, packaging.
 - **Project management**: tidying the GitHub Projects board (formatting the issues, filling in labels, assignees and status). Only the tedious part: it never suggested solutions or design approaches, which stay ours.
-- **Docstrings**: drafting the Google-style docstrings of `core`, `maze_generator`, `maze_render` and `maze_solver`, following the convention we set in [#3](https://github.com/un418/a_maze_ing/issues/3).
+- **Docstrings**: drafting the Google-style docstrings.
 - **This README**: structure and English.
 
 AI-assisted or not, every change goes through a PR reviewed by the other teammate.
