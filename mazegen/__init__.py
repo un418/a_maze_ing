@@ -1,3 +1,5 @@
+"""Maze generator and solver, usable in any Python project."""
+
 from ._maze_generator import MazeGenerator
 from .generator import MazeLogoError
 from .solver import SolverError

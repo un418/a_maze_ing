@@ -1,14 +1,20 @@
-"""Maze generator facade to simplify usage of component"""  # TODO to improve
+"""Single entry point to generate and solve a maze."""
 
 from mazegen.generator import Maze, Logo, MazeGenDFS, Braider
 from mazegen.solver import BFSsolver
 
 
 class MazeGenerator:
-    """Maze generated with solution
+    """A maze, generated and solved as soon as it is created.
 
     Attributes:
-            ...
+        width: Number of columns.
+        height: Number of rows.
+        entry: (x, y) of the entry.
+        exit: (x, y) of the exit.
+        grid: Rows of cells, indexed as `grid[y][x]`.
+        solution: (x, y) coordinates of a shortest path, from the entry
+            to the exit, both included.
     """
 
     def __init__(
@@ -20,6 +26,23 @@ class MazeGenerator:
         perfect: bool,
         seed: int | None = None
     ) -> None:
+        """Generate the maze, then solve it.
+
+        Args:
+            width: Number of columns, at least 8.
+            height: Number of rows, at least 8.
+            entry: (x, y) of the entry, inside the maze.
+            exit: (x, y) of the exit, inside the maze.
+            perfect: True for a single path between any two cells, False
+                to open extra walls (loops, fewer dead ends).
+            seed: Same seed and parameters give the same maze. None gives
+                a random one.
+
+        Raises:
+            MazeLogoError: If the width or the height is below 8.
+            SolverError: If no path leads to the exit, for example when
+                the entry or the exit is on a cell of the "42" logo.
+        """
 
         _maze = Maze(width=width, height=height, entry=entry, exit=exit)
 
