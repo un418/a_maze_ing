@@ -1,4 +1,4 @@
-"""Maze generator and solver, usable in any Python project."""
+"""A standalone library to generate and solve mazes."""
 
 from ._maze_generator import MazeGenerator
 from .generator import MazeLogoError
