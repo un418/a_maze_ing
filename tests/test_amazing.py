@@ -127,3 +127,9 @@ class TestImperfect(MazeChecks):
     """Imperfect maze."""
 
     CONFIG = "tests/imperfect-config.txt"
+
+
+class TestDefaultConfig(MazeChecks):
+    """The config.txt of the repo, which can be edited."""
+
+    CONFIG = "config.txt"
