@@ -6,7 +6,6 @@ Classes:
 
 from collections.abc import Callable
 from typing import Literal
-import os
 
 from mazegen.core import Dir, CellState
 from mazegen.generator import Maze, Cell
@@ -26,7 +25,7 @@ _BOX_RENDERERS: dict[RenderMode, Callable[[int, CellState | None], str]] = {
 
 
 class AsciiMazeRender:
-    """Renders a maze in the terminal and handles the screen around it.
+    """Renders a maze in the terminal as ASCII boxes.
 
     Attributes:
         maze: Maze currently rendered.
@@ -105,10 +104,6 @@ class AsciiMazeRender:
         lines.append(bottom + "+")
         return "\n".join(lines)
 
-    def clear(self) -> None:
-        """Clear the terminal."""
-        os.system('cls' if os.name == 'nt' else 'clear')
-
     def flush(self, frame: str) -> None:
         """Print `frame` from the top-left corner, over the previous one.
 
@@ -116,11 +111,3 @@ class AsciiMazeRender:
             frame: Rendered maze, as returned by `frame()`.
         """
         print("\033[H" + frame)
-
-    def disable_term_cursor(self) -> None:
-        """Hide the terminal cursor during the animation."""
-        print("\033[?25l")
-
-    def enable_term_cursor(self) -> None:
-        """Show the terminal cursor again."""
-        print("\033[?25h")

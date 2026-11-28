@@ -3,7 +3,7 @@ from typing import Generator
 
 from config_parser import ConfigData
 from mazegen.generator import Braider, Logo, Maze, Cell, MazeGenDFS
-from maze_render import AsciiMazeRender
+from maze_render import AsciiMazeRender, clear_term
 
 
 def maze_generation(
@@ -33,7 +33,8 @@ def maze_generation(
     mazegen.import_logoset(logo_coordset)
     # renderer object
     render = AsciiMazeRender(maze)
-    # helper function to yield generator and draw it in terminal
+    # Starting on a clean screen, then drawing each generator step
+    clear_term()
     op_count: int = animate_generation(render, mazegen.gen())
     # modding perfect maze to generate non-Perfect
     if not val_data.PERFECT:

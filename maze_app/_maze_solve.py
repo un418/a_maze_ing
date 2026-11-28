@@ -60,7 +60,6 @@ def non_perfect_solver(
     # Solving non-Perfect
     solver = BFSsolver(maze)
     render.attach(solver.maze)
-    render.disable_term_cursor()
 
     solved_path = solver.solver()
     for x, y in solved_path:
@@ -68,7 +67,6 @@ def non_perfect_solver(
         render.flush(render.frame(mode="default"))
         sleep(1 / 60)
 
-    render.enable_term_cursor()
     status_lines.append(f"Maze solved in {len(solved_path) - 1} ops")
     return solved_path
 
@@ -93,7 +91,6 @@ def perfect_solver(
     # Solving Perfect
     solver = DeadEndSolver(maze)
     render.attach(solver.maze)
-    render.disable_term_cursor()
 
     solver_iter = solver.fill_dead_end()
     try:
@@ -104,7 +101,6 @@ def perfect_solver(
             sleep(1 / 60)
     except StopIteration as e:
         status_lines.append(f"Maze solved in {e.value} ops")
-    render.enable_term_cursor()
 
     pop_solution = solver.solve()  # Populate solver.solution
     for x in pop_solution:

@@ -19,6 +19,8 @@ from maze_app import (
     config_importer,
     maze_generation,
     maze_solver,
+    hide_term_cursor,
+    show_term_cursor,
 )
 
 if __name__ == "__main__":
@@ -29,18 +31,24 @@ if __name__ == "__main__":
         except (ValueError, ValidationError, OSError, ImporterError) as e:
             print(f"Config error: {e}", file=sys.stderr)
             sys.exit(42)
-        # Generating a maze Block
+        # Cursor hidden during animations
+        hide_term_cursor()
         try:
-            maze, render, status_lines = maze_generation(val_data)
-        except Exception as e:  # PLACEHOLDER
-            print(f"Maze Generation Error: {e}", file=sys.stderr)
-            sys.exit(42)
-        # Solving the maze
-        try:
-            solution = maze_solver(val_data, maze, render, status_lines)
-        except (Exception, SolverError) as e:  # PLACEHOLDER
-            print(f"Maze Solving Error: {e}", file=sys.stderr)
-            sys.exit(42)
+            # Generating a maze Block
+            try:
+                maze, render, status_lines = maze_generation(val_data)
+            except Exception as e:  # PLACEHOLDER
+                print(f"Maze Generation Error: {e}", file=sys.stderr)
+                sys.exit(42)
+            # Solving the maze
+            try:
+                solution = maze_solver(val_data, maze, render, status_lines)
+            except (Exception, SolverError) as e:  # PLACEHOLDER
+                print(f"Maze Solving Error: {e}", file=sys.stderr)
+                sys.exit(42)
+        finally:
+            # Shown again, even after Ctrl+C or an error
+            show_term_cursor()
         # Output file Generation
         try:
             OutputFile(maze, val_data.OUTPUT_FILE, solution).constructor()
