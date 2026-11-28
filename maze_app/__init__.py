@@ -5,6 +5,7 @@ from pydantic import ValidationError
 from config_parser import ConfigData
 from mazegen.generator import Maze
 from mazegen.solver import SolverError
+from maze_render import hide_term_cursor, show_term_cursor
 from output_file import OutputFile
 
 from ._config_importer import config_importer, ImporterError
@@ -21,4 +22,6 @@ __all__ = [
     "ImporterError",
     "maze_generation",
     "maze_solver",
+    "hide_term_cursor",
+    "show_term_cursor",
 ]
