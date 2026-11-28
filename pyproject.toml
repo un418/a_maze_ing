@@ -6,10 +6,12 @@ authors = [
     {name = "apinho-a and adaferna"}
 ]
 requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE.md"]
 
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
+requires = ["poetry-core>=2.2.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
