@@ -39,10 +39,11 @@ The generation part is meant to be reused: it ships as a standalone pip package,
 
 ## Instructions
 
-**Requirements**: Python 3.10+ and [Poetry](https://python-poetry.org/).
+**Requirements**: Python 3.10+ and [Poetry](https://python-poetry.org/) 2.3+.
 
 ```bash
 pipx install poetry   # install Poetry, if not already installed
+pipx upgrade poetry   # if older than 2.3
 ```
 
 ```bash
