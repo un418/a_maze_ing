@@ -3,7 +3,7 @@
 from ._braiding import Braider
 from ._cell import Cell
 from ._dfs_generator import MazeGenDFS
-from ._logo import Logo
+from ._logo import Logo, MazeLogoError
 from ._maze import Maze
 
 __all__ = [
@@ -12,4 +12,5 @@ __all__ = [
     "MazeGenDFS",
     "Logo",
     "Braider",
+    "MazeLogoError",
 ]

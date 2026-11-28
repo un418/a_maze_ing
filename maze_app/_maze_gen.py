@@ -2,7 +2,7 @@ from time import sleep
 from typing import Generator
 
 from config_parser import ConfigData
-from maze_generator import Braider, Logo, Maze, Cell, MazeGenDFS
+from mazegen.generator import Braider, Logo, Maze, Cell, MazeGenDFS
 from maze_render import AsciiMazeRender
 
 

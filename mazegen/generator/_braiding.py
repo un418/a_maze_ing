@@ -1,7 +1,6 @@
 """Open walls in a generated maze to reduce dead ends."""
 
-from core import Dir, Step
-from core.maze_enum import OppDir
+from mazegen.core import Dir, Step, OppDir
 
 from ._cell import Cell
 from ._maze import Maze

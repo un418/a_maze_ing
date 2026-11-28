@@ -1,4 +1,4 @@
-.PHONY: install run debug build clean fclean lint lint-strict lint-flake8 lint-mypy lint-mypy-strict test test-one
+.PHONY: install run debug build clean fclean vclean lint lint-strict lint-flake8 lint-mypy lint-mypy-strict test analyzer
 
 PYTHON      := poetry run python3
 MAIN        := a_maze_ing.py
@@ -18,15 +18,13 @@ run: install
 debug: install
 	$(PYTHON) -m pdb $(MAIN) $(CONFIG)
 
-# Runs + analyzes each test config
-# TODO: display issues (render output gets mixed up), to be fixed later
-test:
-	@$(MAKE) --no-print-directory test-one CONFIG=tests/perfect-config.txt
-	@$(MAKE) --no-print-directory test-one CONFIG=tests/imperfect-config.txt
+# Runs the pytest tests of tests/
+test: install
+	poetry run pytest -v
 
-# Note: the analyzer exits 0 even on a bad verdict -> read the "Verdict:" line
-# Note: the solution path in the footer is not checked
-test-one: run
+# Runs + analyzes one config: make analyzer CONFIG=<config_file>
+analyzer: run
+	@echo "usage: make analyzer <CONFIG=config_file>"
 	$(PYTHON) tests/maze_analyzer.py $(OUTPUT)
 
 # -k (keep going): run mypy even if flake8 fails, but still exit with an error
@@ -66,3 +64,8 @@ clean:
 fclean: clean
 	@echo "### Build artifacts ###"
 	@rm -fv $(PACKAGE)-*
+
+# Removes the Poetry virtual envs of this project only
+vclean:
+	@echo "### Virtual envs ###"
+	poetry env remove --all
