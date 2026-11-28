@@ -15,6 +15,7 @@ _This project has been created as part of the 42 curriculum by adaferna, apinho-
   - [Why this algorithm](#why-this-algorithm-1)
 - [Reusable module](#reusable-module)
   - [Usage](#usage)
+- [License](#license)
 - [Team and project management](#team-and-project-management)
   - [Roles](#roles)
   - [Planning](#planning)
@@ -165,6 +166,11 @@ print(maze.solution)  # shortest path of (x, y)
 
 - **Walls**: `cell.wall` is the sum of the closed walls: North 1, East 2, South 4, West 8 (`3` = north and east).
 - **Logo**: `cell.logo` is `True` for the fully closed cells of the "42" logo.
+
+## License
+
+- **MIT**, see [LICENSE.md](LICENSE.md). It covers the whole repository, `mazegen` included.
+- **Reuse**: later projects can use, modify and distribute `mazegen`, as long as they keep the copyright and license notice.
 
 ## Team and project management
 
